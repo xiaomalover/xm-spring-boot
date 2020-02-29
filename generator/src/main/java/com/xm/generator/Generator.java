@@ -10,9 +10,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.BeetlTemplateEngine;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * 代码生成器
@@ -79,6 +77,10 @@ public class Generator {
             }
         };
 
+        Map<String, Object> params = new HashMap<>();
+        params.put("requestMappingPrefix", "/" + moduleName);
+        cfg.setMap(params);
+
         String templatePath = "/templates/mapper.xml.btl";
 
         // 自定义输出配置
@@ -106,7 +108,7 @@ public class Generator {
         StrategyConfig strategy = new StrategyConfig();
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setSuperEntityClass("BaseEntity");
+        strategy.setSuperEntityClass("com.xm.common.entity.BaseEntity");
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);
         strategy.setInclude(scanner("表名"));
