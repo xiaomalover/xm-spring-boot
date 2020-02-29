@@ -2,11 +2,8 @@ package com.xm.common.vo;
 
 import lombok.Data;
 import org.springframework.util.ObjectUtils;
-
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * 分页排序日期搜索前端收集VO
@@ -26,21 +23,33 @@ public class ExtraVo implements Serializable {
 
     private String order;
 
-    private String startDate;
+    private Long startDate;
 
-    private String endDate;
+    private Long endDate;
 
-    public String getEndDate() {
-        if (!ObjectUtils.isEmpty(endDate)) {
-            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-            Date d;
-            try {
-                d = new Date(f.parse(endDate).getTime() + 24 * 3600 * 1000);
-            } catch (ParseException e) {
-                return endDate;
-            }
-            return f.format(d);
+    public void setStartDate(String startDate)
+    {
+        if (!ObjectUtils.isEmpty(startDate)) {
+            this.startDate = this.stringToTimestamp(startDate);
         }
-        return endDate;
+    }
+
+    public void setEndDate(String endDate)
+    {
+        if (!ObjectUtils.isEmpty(endDate)) {
+            Long temp = this.stringToTimestamp(endDate);
+            this.endDate =  temp + 24 * 3600;
+        }
+    }
+
+    private Long stringToTimestamp(String time) {
+        time += " 00:00:00";
+        Long timestamp = 0L;
+        try {
+            timestamp = ((Timestamp.valueOf(time).getTime()) / 1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return timestamp;
     }
 }

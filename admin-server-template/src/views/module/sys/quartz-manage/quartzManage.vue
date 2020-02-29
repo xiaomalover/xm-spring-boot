@@ -60,6 +60,7 @@
 <script>
     import {addQuartz, deleteQuartz, editQuartz, getQuartzListData, pauseQuartz, resumeQuartz} from "@/api/index";
     import circleLoading from "../../../my-components/circle-loading.vue";
+    import moment from 'moment';
 
     export default {
         name: "quartz-manage",
@@ -124,6 +125,24 @@
                         key: "description",
                         sortable: true,
                         width: 180
+                    },
+                    {
+                        title: "创建时间",
+                        key: "createdAt",
+                        sortable: true,
+                        sortType: "desc",
+                        render: (h, params) => {
+                            return h("div", moment(params.row.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
+                        }
+                    },
+                    {
+                        title: "更新时间",
+                        key: "updatedAt",
+                        sortable: true,
+                        sortType: "desc",
+                        render: (h, params) => {
+                            return h("div", moment(params.row.updatedAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
+                        }
                     },
                     {
                         title: "状态",

@@ -95,6 +95,7 @@
         loadArticleCategory,
         getUploadDomain,
     } from "@/api/index";
+    import moment from 'moment';
 
     export default {
         name: "article-manage",
@@ -223,7 +224,7 @@
                         sortable: true,
                         sortType: "desc",
                         render: (h, params) => {
-                            return h("div", params.row.createdAt.replace(/.[0-9]*$/,''));
+                            return h("div", moment(params.row.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
                         }
                     },
                 ],

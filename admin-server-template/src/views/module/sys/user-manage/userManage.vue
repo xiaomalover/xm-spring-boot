@@ -162,6 +162,7 @@
         disableUser,
         deleteUser
     } from "@/api/index";
+    import moment from 'moment';
 
     export default {
         name: "user-manage",
@@ -362,10 +363,12 @@
                     },
                     {
                         title: "创建时间",
-                        key: "createdAt",
-                        sortable: true,
-                        sortType: "desc",
-                        width: 150
+                            key: "createdAt",
+                            sortable: true,
+                            sortType: "desc",
+                            render: (h, params) => {
+                            return h("div", moment(params.row.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
+                        }
                     },
                     {
                         title: "操作",

@@ -21,13 +21,13 @@ public abstract class BaseEntity implements Serializable {
     private String id = String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId());
 
     @TableField(fill = FieldFill.INSERT)
-    private String createdAt;
+    private Long createdAt;
 
     @TableField(fill = FieldFill.INSERT)
     private String createdBy;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updatedAt;
+    private Long updatedAt;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatedBy;

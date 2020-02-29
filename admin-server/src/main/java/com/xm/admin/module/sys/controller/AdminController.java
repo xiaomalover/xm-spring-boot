@@ -260,10 +260,10 @@ public class AdminController {
             adminQueryWrapper.eq("status", user.getStatus());
         }
 
-        if (!StringUtils.isEmpty(extraVo.getStartDate())) {
+        if (ObjectUtils.isNotNull(extraVo.getStartDate()) && extraVo.getStartDate() > 0) {
             adminQueryWrapper.gt("created_at", extraVo.getStartDate());
         }
-        if (!StringUtils.isEmpty(extraVo.getEndDate())) {
+        if (ObjectUtils.isNotNull(extraVo.getEndDate()) && extraVo.getEndDate() > 0) {
             adminQueryWrapper.lt("created_at", extraVo.getEndDate());
         }
 

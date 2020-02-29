@@ -15,7 +15,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        Long now = getSqlDate();
+        Long now = getTimestamp();
         String nowString = now.toString();
         setFieldValByName("createdAt", nowString, metaObject);
         setFieldValByName("updatedAt", nowString, metaObject);
@@ -23,10 +23,10 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName("updatedAt", getSqlDate().toString(), metaObject);
+        setFieldValByName("updatedAt", getTimestamp().toString(), metaObject);
     }
 
-    private Long getSqlDate() {
+    private Long getTimestamp() {
         return System.currentTimeMillis() / 1000;
     }
 }

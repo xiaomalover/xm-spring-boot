@@ -29,21 +29,19 @@ CREATE TABLE `article_category` (
   `short_title` varchar(32) NOT NULL DEFAULT '' COMMENT '短标题',
   `relations` varchar(255) NOT NULL DEFAULT '' COMMENT '完整关系',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态',
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Data for the table `article_category` */
 
 insert  into `article_category`(`id`,`is_parent`,`parent_id`,`sort_no`,`title`,`short_title`,`relations`,`status`,`created_at`,`created_by`,`updated_at`,`updated_by`) values 
-('126487778832683008',NULL,'126487652370223104',1.00,'最新动态','最新动态','126487652370223104,126487778832683008',0,'2019-04-05 15:09:37','admin','2019-04-05 23:50:57','admin'),
-('126487628886315008','','0',1.00,'公司动态','asfdas','126487628886315008',0,'2019-04-05 15:09:01','admin','2019-04-06 00:45:19','admin'),
-('126487652370223104','','0',1.00,'行业动态','行业动态','126487652370223104',0,'2019-04-05 15:09:07','admin','2019-04-05 23:50:14','admin'),
-('126487695848378368','','126487628886315008',1.00,'生日会','dddd','126487628886315008,126487695848378368',0,'2019-04-05 15:09:17','admin','2019-04-05 15:12:41','admin'),
-('126487731625791488',NULL,'126487695848378368',1.00,'员工生日会','员工生日会','126487695848378368,126487731625791488',0,'2019-04-05 15:09:26','admin','2019-04-05 23:51:20','admin');
+('246051614496919552',NULL,'0',1.00,'test','teaaa11','246051614496919552',0,1582954417,'admin',1582959143,'admin'),
+('246084721493151744','','0',1.00,'ddd','dd','246084721493151744',0,1582962310,'admin',1582962316,'admin'),
+('246084745308409856',NULL,'246084721493151744',1.00,'fff','ddd','246084721493151744,246084745308409856',0,1582962316,'admin',1582962316,'admin');
 
 /*Table structure for table `article_info` */
 
@@ -58,9 +56,9 @@ CREATE TABLE `article_info` (
   `content` text COMMENT '文章内容',
   `author` varchar(32) DEFAULT NULL COMMENT '作者',
   `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态（0启用;1禁用）',
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章表';
@@ -195,9 +193,9 @@ DROP TABLE IF EXISTS `qrtz_quartz_job`;
 
 CREATE TABLE `qrtz_quartz_job` (
   `id` varchar(32) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(255) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(255) DEFAULT NULL,
   `cron_expression` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -210,8 +208,8 @@ CREATE TABLE `qrtz_quartz_job` (
 /*Data for the table `qrtz_quartz_job` */
 
 insert  into `qrtz_quartz_job`(`id`,`created_at`,`created_by`,`updated_at`,`updated_by`,`cron_expression`,`description`,`job_class_name`,`parameter`,`status`) values 
-('119642809568333824','2019-03-17 17:50:09','admin','2020-02-28 15:25:10','admin','*/5 * * * * ?','无参数定时任务','com.xm.admin.quartz.jobs.JobWithoutParam','null',-1),
-('95632048328282112','2019-01-10 11:39:58','null','2020-02-28 15:25:11','null','*/5 * * * * ?','有参测试任务','com.xm.admin.quartz.jobs.JobWithParam','Test Job',-1);
+('119642809568333824',1582959143,'admin',1582963170,'admin','*/5 * * * * ?','无参数定时任务','com.xm.admin.quartz.jobs.JobWithoutParam','null',-1),
+('95632048328282112',1582959143,'null',1582963349,'null','*/5 * * * * ?','有参测试任务','com.xm.admin.quartz.jobs.JobWithParam','Test Job',-1);
 
 /*Table structure for table `qrtz_scheduler_state` */
 
@@ -298,8 +296,8 @@ CREATE TABLE `qrtz_triggers` (
 /*Data for the table `qrtz_triggers` */
 
 insert  into `qrtz_triggers`(`SCHED_NAME`,`TRIGGER_NAME`,`TRIGGER_GROUP`,`JOB_NAME`,`JOB_GROUP`,`DESCRIPTION`,`NEXT_FIRE_TIME`,`PREV_FIRE_TIME`,`PRIORITY`,`TRIGGER_STATE`,`TRIGGER_TYPE`,`START_TIME`,`END_TIME`,`CALENDAR_NAME`,`MISFIRE_INSTR`,`JOB_DATA`) values 
-('quartzScheduler','com.xm.admin.quartz.jobs.JobWithoutParam','DEFAULT','com.xm.admin.quartz.jobs.JobWithoutParam','DEFAULT',NULL,1582874715000,1582874710000,5,'PAUSED','CRON',1582874453000,0,NULL,0,''),
-('quartzScheduler','com.xm.admin.quartz.jobs.JobWithParam','DEFAULT','com.xm.admin.quartz.jobs.JobWithParam','DEFAULT',NULL,1582874715000,1582874710000,5,'PAUSED','CRON',1582874455000,0,NULL,0,'');
+('quartzScheduler','com.xm.admin.quartz.jobs.JobWithoutParam','DEFAULT','com.xm.admin.quartz.jobs.JobWithoutParam','DEFAULT',NULL,1582963175000,1582963170000,5,'PAUSED','CRON',1582874453000,0,NULL,0,''),
+('quartzScheduler','com.xm.admin.quartz.jobs.JobWithParam','DEFAULT','com.xm.admin.quartz.jobs.JobWithParam','DEFAULT',NULL,1582963350000,1582963345000,5,'PAUSED','CRON',1582874455000,0,NULL,0,'');
 
 /*Table structure for table `sys_admin` */
 
@@ -321,9 +319,9 @@ CREATE TABLE `sys_admin` (
   `department_id` varchar(32) NOT NULL DEFAULT '',
   `street` varchar(255) NOT NULL DEFAULT '',
   `pass_strength` varchar(2) NOT NULL DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -331,8 +329,8 @@ CREATE TABLE `sys_admin` (
 /*Data for the table `sys_admin` */
 
 insert  into `sys_admin`(`id`,`address`,`avatar`,`description`,`email`,`mobile`,`nick_name`,`password`,`sex`,`status`,`type`,`username`,`department_id`,`street`,`pass_strength`,`created_at`,`created_by`,`updated_at`,`updated_by`) values 
-('47599079840026624','[\"440000\",\"440300\",\"440305\"]','','','DM@gmail.com','13888888888','','$2a$10$zXdiP.pMKunw8CmWdahPFunxnjfuXjcEvJdzFAcp79UazQTxb78P2',1,0,1,'admin','87335940934078464','','','2018-08-30 22:34:06','admin','2019-04-05 23:39:42','admin'),
-('87338083204206592','[\"440000\",\"440300\",\"440305\"]','','','a@b.com','13333333333','','$2a$10$zXdiP.pMKunw8CmWdahPFunxnjfuXjcEvJdzFAcp79UazQTxb78P2',1,0,1,'test','87336063856545792','','','2018-12-18 14:22:43','admin','2019-04-05 23:35:54','admin');
+('47599079840026624','[\"440000\",\"440300\",\"440305\"]','','','DM@gmail.com','13888888888','','$2a$10$zXdiP.pMKunw8CmWdahPFunxnjfuXjcEvJdzFAcp79UazQTxb78P2',1,0,1,'admin','87335940934078464','','',1582959143,'admin',1582959143,'admin'),
+('87338083204206592','[\"440000\",\"440300\",\"440305\"]','','','a@b.com','13333333333','','$2a$10$zXdiP.pMKunw8CmWdahPFunxnjfuXjcEvJdzFAcp79UazQTxb78P2',1,0,1,'test','87336063856545792','','',1582959143,'admin',1582959143,'admin');
 
 /*Table structure for table `sys_admin_log` */
 
@@ -348,9 +346,9 @@ CREATE TABLE `sys_admin_log` (
   `request_type` varchar(16) NOT NULL DEFAULT '',
   `request_url` varchar(255) NOT NULL DEFAULT '',
   `username` varchar(32) NOT NULL DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -358,10 +356,10 @@ CREATE TABLE `sys_admin_log` (
 /*Data for the table `sys_admin_log` */
 
 insert  into `sys_admin_log`(`id`,`cost_time`,`ip`,`ip_info`,`name`,`request_param`,`request_type`,`request_url`,`username`,`created_at`,`created_by`,`updated_at`,`updated_by`) values 
-('245744164132622336',18,'192.168.3.13','','登录系统','{\"password\":\"你是看不见我的\",\"captcha\":\"opbm\",\"saveLogin\":\"true\",\"captchaId\":\"844b91d0fa16486c943818726bb498be\",\"username\":\"test\"}','POST','/skeleton/login','admin','2020-02-28 17:11:55','admin','2020-02-28 17:11:55','admin'),
-('245758951038128128',20,'127.0.0.1','','登录系统','{\"password\":\"你是看不见我的\",\"captcha\":\"nmbh\",\"saveLogin\":\"true\",\"captchaId\":\"1f976f2dc5474a6d8338ea2a830e208a\",\"username\":\"admin\"}','POST','/skeleton/login','admin','2020-02-28 18:10:40','admin','2020-02-28 18:10:40','admin'),
-('245717306448023552',80,'127.0.0.1','','暂停定时任务','{\"cronExpression\":\"*/5 * * * * ?\",\"createdAt\":\"2019-01-10 11:39:58.0\",\"updatedBy\":\"null\",\"_index\":\"1\",\"createdBy\":\"null\",\"jobClassName\":\"com.xm.admin.quartz.jobs.JobWithParam\",\"parameter\":\"Test Job\",\"description\":\"有参测试任务\",\"id\":\"95632048328282112\",\"updatedAt\":\"2020-02-28 15:20:55.0\",\"status\":\"0\",\"_rowKey\":\"50\"}','POST','/skeleton/quartzJob/pause','admin','2020-02-28 15:25:12','admin','2020-02-28 15:25:12','admin'),
-('245717298671783936',112,'127.0.0.1','','暂停定时任务','{\"cronExpression\":\"*/5 * * * * ?\",\"createdAt\":\"2019-03-17 17:50:09.0\",\"updatedBy\":\"admin\",\"_index\":\"0\",\"createdBy\":\"admin\",\"jobClassName\":\"com.xm.admin.quartz.jobs.JobWithoutParam\",\"parameter\":\"null\",\"description\":\"无参数定时任务\",\"id\":\"119642809568333824\",\"updatedAt\":\"2020-02-28 15:20:53.0\",\"status\":\"0\",\"_rowKey\":\"47\"}','POST','/skeleton/quartzJob/pause','admin','2020-02-28 15:25:10','admin','2020-02-28 15:25:10','admin');
+('246089165475680256',28,'127.0.0.1','','登录系统','{\"password\":\"你是看不见我的\",\"captcha\":\"h1le\",\"saveLogin\":\"true\",\"captchaId\":\"0aae84dc5be54346b308f9ce35220125\",\"username\":\"test\"}','POST','/skeleton/login','admin',1582963370,'admin',1582963370,'admin'),
+('246088609797509120',6,'127.0.0.1','','添加定时任务','{\"cronExpression\":\"*/4 * * * * ?\",\"paramter\":\"\",\"jobClassName\":\"com.xm.admin.quartz.jobs.JobWithParam\",\"parameter\":\"a\",\"description\":\"aaa\"}','POST','/skeleton/quartzJob/add','admin',1582963237,'admin',1582963237,'admin'),
+('246089079333064704',91,'127.0.0.1','','暂停定时任务','{\"cronExpression\":\"*/5 * * * * ?\",\"createdAt\":\"1582959143\",\"updatedBy\":\"null\",\"_index\":\"1\",\"createdBy\":\"null\",\"jobClassName\":\"com.xm.admin.quartz.jobs.JobWithParam\",\"parameter\":\"Test Job\",\"description\":\"有参测试任务\",\"id\":\"95632048328282112\",\"updatedAt\":\"1582963187\",\"status\":\"0\",\"_rowKey\":\"54\"}','POST','/skeleton/quartzJob/pause','admin',1582963349,'admin',1582963349,'admin'),
+('246088400082309120',100,'127.0.0.1','','恢复定时任务','{\"cronExpression\":\"*/5 * * * * ?\",\"createdAt\":\"1582959143\",\"updatedBy\":\"null\",\"_index\":\"1\",\"createdBy\":\"null\",\"jobClassName\":\"com.xm.admin.quartz.jobs.JobWithParam\",\"parameter\":\"Test Job\",\"description\":\"有参测试任务\",\"id\":\"95632048328282112\",\"updatedAt\":\"1582963172\",\"status\":\"-1\",\"_rowKey\":\"18\"}','POST','/skeleton/quartzJob/resume','admin',1582963187,'admin',1582963187,'admin');
 
 /*Table structure for table `sys_admin_role` */
 
@@ -371,9 +369,9 @@ CREATE TABLE `sys_admin_role` (
   `id` varchar(32) NOT NULL,
   `role_id` varchar(32) NOT NULL DEFAULT '',
   `user_id` varchar(32) NOT NULL DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -381,14 +379,14 @@ CREATE TABLE `sys_admin_role` (
 /*Data for the table `sys_admin_role` */
 
 insert  into `sys_admin_role`(`id`,`role_id`,`user_id`,`created_at`,`created_by`,`updated_at`,`updated_by`) values 
-('51919463095734273','496138616573953','51919414177566720','2018-09-11 20:41:46','admin','2018-09-11 20:41:46','admin'),
-('126616146991386624','496138616573952','47599079840026624','2019-04-05 23:39:42','admin','2019-04-05 23:39:42','admin'),
-('126477266149445632','496138616573953','87338083204206592','2019-04-05 14:27:51','admin','2019-04-05 14:27:51','admin'),
-('116844842029420544','496138616573952','116844841647738880','2019-03-10 00:32:02','admin','2019-03-10 00:32:02','admin'),
-('116847350214823936','496138616573952','116846552936353792','2019-03-10 00:42:00','admin','2019-03-10 00:42:00','admin'),
-('116851632993472512','116849032776650752','116847659427303424','2019-03-10 00:59:01','admin','2019-03-10 00:59:01','admin'),
-('116850548648448000','496138616573952','116848891118227456','2019-03-10 00:54:42','admin','2019-03-10 00:54:42','admin'),
-('117180303184760832','496138616573953','117180302777913344','2019-03-10 22:45:02','admin','2019-03-10 22:45:02','admin');
+('51919463095734273','496138616573953','51919414177566720',1582959143,'admin',1582959143,'admin'),
+('126616146991386624','496138616573952','47599079840026624',1582959143,'admin',1582959143,'admin'),
+('126477266149445632','496138616573953','87338083204206592',1582959143,'admin',1582959143,'admin'),
+('116844842029420544','496138616573952','116844841647738880',1582959143,'admin',1582959143,'admin'),
+('116847350214823936','496138616573952','116846552936353792',1582959143,'admin',1582959143,'admin'),
+('116851632993472512','116849032776650752','116847659427303424',1582959143,'admin',1582959143,'admin'),
+('116850548648448000','496138616573952','116848891118227456',1582959143,'admin',1582959143,'admin'),
+('117180303184760832','496138616573953','117180302777913344',1582959143,'admin',1582959143,'admin');
 
 /*Table structure for table `sys_department` */
 
@@ -401,9 +399,9 @@ CREATE TABLE `sys_department` (
   `sort_order` decimal(10,2) NOT NULL DEFAULT '0.00',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `title` varchar(64) NOT NULL DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -411,10 +409,10 @@ CREATE TABLE `sys_department` (
 /*Data for the table `sys_department` */
 
 insert  into `sys_department`(`id`,`is_parent`,`parent_id`,`sort_order`,`status`,`title`,`created_at`,`created_by`,`updated_at`,`updated_by`) values 
-('87336063856545792','\0','87335940934078464',1.00,0,'数据维护','2018-12-18 14:14:41','admin','2019-03-11 12:57:32','admin'),
-('87335940934078464','','0',1.00,0,'运营中心','2018-12-18 14:14:12','admin','2018-12-18 14:14:41','admin'),
-('117179715390803968','','0',1.00,0,'研发中心','2019-03-10 22:42:42','admin','2019-03-10 22:42:51','admin'),
-('117179754469134336',NULL,'117179715390803968',1.00,0,'研发一部','2019-03-10 22:42:51','admin','2019-03-10 22:43:30','admin');
+('87336063856545792','\0','87335940934078464',1.00,0,'数据维护',1582959143,'admin',1582959143,'admin'),
+('87335940934078464','','0',1.00,0,'运营中心',1582959143,'admin',1582959143,'admin'),
+('117179715390803968','','0',1.00,0,'研发中心',1582959143,'admin',1582959143,'admin'),
+('117179754469134336',NULL,'117179715390803968',1.00,0,'研发一部',1582959143,'admin',1582959143,'admin');
 
 /*Table structure for table `sys_permission` */
 
@@ -435,9 +433,9 @@ CREATE TABLE `sys_permission` (
   `button_type` varchar(32) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `url` varchar(255) NOT NULL DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -445,48 +443,48 @@ CREATE TABLE `sys_permission` (
 /*Data for the table `sys_permission` */
 
 insert  into `sys_permission`(`id`,`description`,`name`,`parent_id`,`type`,`sort_order`,`component`,`path`,`title`,`icon`,`level`,`button_type`,`status`,`url`,`created_at`,`created_by`,`updated_at`,`updated_by`) values 
-('5129710648430592','','sys','',0,3.00,'Main','/form','系统管理','ios-settings',1,'',0,'','2018-06-04 19:02:29','admin','2018-09-04 22:50:52','admin'),
-('5129710648430593','','user-manage','5129710648430592',0,1.10,'module/sys/user-manage/userManage','user-manage','管理员管理','md-person',2,'',0,'','2018-06-04 19:02:32','admin','2018-09-03 16:06:57','admin'),
-('5129710648430594','','role-manage','5129710648430592',0,1.50,'module/sys/role-manage/roleManage','role-manage','角色管理','md-contacts',2,'',0,'','2018-06-04 19:02:35','admin','2018-08-23 17:31:27','admin'),
-('5129710648430595','','menu-manage','5129710648430592',0,1.60,'module/sys/menu-manage/menuManage','menu-manage','菜单权限管理','md-menu',2,'',0,'','2018-06-04 19:02:37','admin','2018-08-23 17:31:33','admin'),
-('15701400130424832','','','5129710648430593',1,1.11,'','/skeleton/user/admin/add','添加用户','',3,'add',0,'','2018-06-03 22:04:06','admin','2018-08-31 17:24:08','admin'),
-('15701915807518720','','','5129710648430593',1,1.13,'','/skeleton/user/admin/disable/**','禁用用户','',3,'disable',0,'','2018-06-03 22:06:09','admin','2018-08-31 17:24:39','admin'),
-('15708892205944832','','','5129710648430593',1,1.14,'','/skeleton/user/admin/enable/**','启用用户','',3,'enable',0,'','2018-06-03 22:33:52','admin','2018-08-31 17:24:52','admin'),
-('16678126574637056','','','5129710648430593',1,1.12,'','/skeleton/user/admin/edit','编辑用户','',3,'edit',0,'','2018-06-06 14:45:16','admin','2018-08-31 17:24:23','admin'),
-('16678447719911424','','','5129710648430593',1,1.15,'','/skeleton/user/delByIds/**','删除用户','',3,'delete',0,'','2018-06-06 14:46:32','admin','2018-08-31 17:25:07','admin'),
-('16687383932047360','','','5129710648430594',1,1.21,'','/skeleton/role/save','添加角色','',3,'add',0,'','2018-06-06 15:22:03','admin','2018-08-31 17:26:02','admin'),
-('16689632049631232','','','5129710648430594',1,1.22,'','/skeleton/role/edit','编辑角色','',3,'edit',0,'','2018-06-06 15:30:59','admin','2018-08-31 17:26:13','admin'),
-('16689745006432256','','','5129710648430594',1,1.23,'','/skeleton/role/delAllByIds/**','删除角色','',3,'delete',0,'','2018-06-06 15:31:26','admin','2018-08-31 17:26:23','admin'),
-('16689883993083904','','','5129710648430594',1,1.24,'','/skeleton/role/editRolePerm/**','分配权限','',3,'editPerm',0,'','2018-06-06 15:31:59','admin','2018-08-31 17:26:45','admin'),
-('16690313745666048','','','5129710648430594',1,1.25,'','/skeleton/role/setDefault','设为默认角色','',3,'setDefault',0,'','2018-06-06 15:33:41','admin','2018-08-31 17:27:00','admin'),
-('16694861252005888','','','5129710648430595',1,1.31,'','/skeleton/permission/add','添加菜单','',3,'add',0,'','2018-06-06 15:51:46','admin','2018-08-31 17:27:14','admin'),
-('16695107491205120','','','5129710648430595',1,1.32,'','/skeleton/permission/edit','编辑菜单','',3,'edit',0,'','2018-06-06 15:52:44','admin','2018-08-31 17:27:21','admin'),
-('16695243126607872','','','5129710648430595',1,1.33,'','/skeleton/permission/delByIds/**','删除菜单','',3,'delete',0,'','2018-06-06 15:53:17','admin','2018-08-31 17:27:31','admin'),
-('39915540965232640','','monitor','',0,4.00,'Main','/monitor','系统监控','ios-analytics',1,'',0,'','2018-08-09 17:42:28','admin','2018-09-04 22:50:47','admin'),
-('40238597734928384','','department-manage','5129710648430592',0,1.20,'module/sys/department-manage/departmentManage','department-manage','部门管理','md-git-branch',2,'',0,'','2018-08-10 15:06:10','admin','2018-08-10 15:06:10','admin'),
-('41363147411427328','','log-manage','39915540965232640',0,2.20,'module/sys/log-manage/logManage','log-manage','操作日志管理','md-list-box',2,'',0,'','2018-08-13 17:34:43','admin','2018-08-20 20:05:21','admin'),
-('41363537456533504','','','41363147411427328',1,2.11,'','/skeleton/log/delByIds/**','删除日志','',3,'delete',0,'','2018-08-13 17:36:16','admin','2018-08-31 17:28:04','admin'),
-('41364927394353152','','','41363147411427328',1,2.12,'','/skeleton/log/delAll','清空日志','',3,'undefined',0,'','2018-08-13 17:41:48','admin','2018-08-31 17:28:13','admin'),
-('45235621697949696','','','40238597734928384',1,1.21,'','/skeleton/department/add','添加部门','',3,'add',0,'','2018-08-24 10:02:33','admin','2018-08-31 17:25:26','admin'),
-('45235787867885568','','','40238597734928384',1,1.22,'','/skeleton/department/edit','编辑部门','',3,'edit',0,'','2018-08-24 10:03:13','admin','2018-08-31 17:25:36','admin'),
-('45235939278065664','','','40238597734928384',1,1.23,'','/skeleton/department/delByIds/*','删除部门','',3,'delete',0,'','2018-08-24 10:03:49','admin','2018-08-31 17:25:46','admin'),
-('84907582589767680','','quartz-job','39915540965232640',0,2.10,'module/sys/quartz-manage/quartzManage','quartz-job','定时任务','md-time',2,'',0,'','2018-12-11 21:24:46','admin','2018-12-11 21:24:46','admin'),
-('84907899767230464','','','84907582589767680',1,2.11,'','/skeleton/quartzJob/add*','添加定时任务','',3,'add',0,'','2018-12-11 21:26:02','admin','2018-12-11 21:26:02','admin'),
-('84908172535402496','','','84907582589767680',1,2.12,'','/skeleton/quartzJob/edit*','编辑定时任务','',3,'edit',0,'','2018-12-11 21:27:07','admin','2018-12-11 21:27:07','admin'),
-('84908391842975744','','','84907582589767680',1,2.13,'','/skeleton/quartzJob/pause*','暂停定时任务','',3,'disable',0,'','2018-12-11 21:27:59','admin','2018-12-11 21:27:59','admin'),
-('84908678297161728','','','84907582589767680',1,2.14,'','/skeleton/quartzJob/resume*','恢复定时任务','',3,'enable',0,'','2018-12-11 21:29:07','admin','2018-12-11 21:29:07','admin'),
-('84908899202764800','','','84907582589767680',1,2.15,'','/skeleton/quartzJob/delByIds/*','删除定时任务','',3,'delete',0,'','2018-12-11 21:30:00','admin','2018-12-11 21:30:00','admin'),
-('126477677677776896','','article','',0,1.00,'Main','/article','文章管理','ios-book',1,'',0,'','2019-04-05 14:29:29','admin','2019-04-05 14:29:29','admin'),
-('126478074127585280','','articleCategory','126477677677776896',0,1.00,'module/article/category/categoryManage','module/article/category','分类管理','md-bookmarks',2,'',0,'','2019-04-05 14:31:03','admin','2019-04-05 14:31:03','admin'),
-('126495528849510400','','articleInfo','126477677677776896',0,1.00,'module/article/info/articleManage','module/article/info','文章管理','ios-book-outline',2,'',0,'','2019-04-05 15:40:25','admin','2019-04-05 16:49:37','admin'),
-('126612524110974976','','','126478074127585280',1,1.00,'','/skeleton/article/category/add','添加分类','',3,'add',0,'','2019-04-05 23:25:19','admin','2019-04-05 23:28:31','admin'),
-('126612730214879232','','','126478074127585280',1,1.00,'','/skeleton/article/category/edit','修改分类','',3,'edit',0,'','2019-04-05 23:26:08','admin','2019-04-05 23:28:40','admin'),
-('126613271254929408','','','126478074127585280',1,1.00,'','/skeleton/article/category/delByIds/**','删除分类','',3,'delete',0,'','2019-04-05 23:28:17','admin','2019-04-05 23:49:19','admin'),
-('126613728463425536','','','126495528849510400',1,1.00,'','/skeleton/article/add','添加文章','',3,'add',0,'','2019-04-05 23:30:06','admin','2019-04-05 23:30:06','admin'),
-('126613843764842496','','','126495528849510400',1,1.00,'','/skeleton/article/delByIds/**','删除文章','',3,'delete',0,'','2019-04-05 23:30:33','admin','2019-04-05 23:31:16','admin'),
-('126613956428042240','','','126495528849510400',1,1.00,'','/skeleton/article/edit','修改文章','',3,'edit',0,'','2019-04-05 23:31:00','admin','2019-04-05 23:31:00','admin'),
-('126614281000062976','','','126495528849510400',1,1.00,'','/skeleton/article/enable/**','启用文章','',3,'enable',0,'','2019-04-05 23:32:17','admin','2019-04-05 23:32:17','admin'),
-('126614454480670720','','','126495528849510400',1,1.00,'','/skeleton/article/disable/**','禁用文章','',3,'disable',0,'','2019-04-05 23:32:59','admin','2019-04-05 23:32:59','admin');
+('5129710648430592','','sys','',0,3.00,'Main','/form','系统管理','ios-settings',1,'',0,'',1582959143,'admin',1582959143,'admin'),
+('5129710648430593','','user-manage','5129710648430592',0,1.10,'module/sys/user-manage/userManage','user-manage','管理员管理','md-person',2,'',0,'',1582959143,'admin',1582959143,'admin'),
+('5129710648430594','','role-manage','5129710648430592',0,1.50,'module/sys/role-manage/roleManage','role-manage','角色管理','md-contacts',2,'',0,'',1582959143,'admin',1582959143,'admin'),
+('5129710648430595','','menu-manage','5129710648430592',0,1.60,'module/sys/menu-manage/menuManage','menu-manage','菜单权限管理','md-menu',2,'',0,'',1582959143,'admin',1582959143,'admin'),
+('15701400130424832','','','5129710648430593',1,1.11,'','/skeleton/user/admin/add','添加用户','',3,'add',0,'',1582959143,'admin',1582959143,'admin'),
+('15701915807518720','','','5129710648430593',1,1.13,'','/skeleton/user/admin/disable/**','禁用用户','',3,'disable',0,'',1582959143,'admin',1582959143,'admin'),
+('15708892205944832','','','5129710648430593',1,1.14,'','/skeleton/user/admin/enable/**','启用用户','',3,'enable',0,'',1582959143,'admin',1582959143,'admin'),
+('16678126574637056','','','5129710648430593',1,1.12,'','/skeleton/user/admin/edit','编辑用户','',3,'edit',0,'',1582959143,'admin',1582959143,'admin'),
+('16678447719911424','','','5129710648430593',1,1.15,'','/skeleton/user/delByIds/**','删除用户','',3,'delete',0,'',1582959143,'admin',1582959143,'admin'),
+('16687383932047360','','','5129710648430594',1,1.21,'','/skeleton/role/save','添加角色','',3,'add',0,'',1582959143,'admin',1582959143,'admin'),
+('16689632049631232','','','5129710648430594',1,1.22,'','/skeleton/role/edit','编辑角色','',3,'edit',0,'',1582959143,'admin',1582959143,'admin'),
+('16689745006432256','','','5129710648430594',1,1.23,'','/skeleton/role/delAllByIds/**','删除角色','',3,'delete',0,'',1582959143,'admin',1582959143,'admin'),
+('16689883993083904','','','5129710648430594',1,1.24,'','/skeleton/role/editRolePerm/**','分配权限','',3,'editPerm',0,'',1582959143,'admin',1582959143,'admin'),
+('16690313745666048','','','5129710648430594',1,1.25,'','/skeleton/role/setDefault','设为默认角色','',3,'setDefault',0,'',1582959143,'admin',1582959143,'admin'),
+('16694861252005888','','','5129710648430595',1,1.31,'','/skeleton/permission/add','添加菜单','',3,'add',0,'',1582959143,'admin',1582959143,'admin'),
+('16695107491205120','','','5129710648430595',1,1.32,'','/skeleton/permission/edit','编辑菜单','',3,'edit',0,'',1582959143,'admin',1582959143,'admin'),
+('16695243126607872','','','5129710648430595',1,1.33,'','/skeleton/permission/delByIds/**','删除菜单','',3,'delete',0,'',1582959143,'admin',1582959143,'admin'),
+('39915540965232640','','monitor','',0,4.00,'Main','/monitor','系统监控','ios-analytics',1,'',0,'',1582959143,'admin',1582959143,'admin'),
+('40238597734928384','','department-manage','5129710648430592',0,1.20,'module/sys/department-manage/departmentManage','department-manage','部门管理','md-git-branch',2,'',0,'',1582959143,'admin',1582959143,'admin'),
+('41363147411427328','','log-manage','39915540965232640',0,2.20,'module/sys/log-manage/logManage','log-manage','操作日志管理','md-list-box',2,'',0,'',1582959143,'admin',1582959143,'admin'),
+('41363537456533504','','','41363147411427328',1,2.11,'','/skeleton/log/delByIds/**','删除日志','',3,'delete',0,'',1582959143,'admin',1582959143,'admin'),
+('41364927394353152','','','41363147411427328',1,2.12,'','/skeleton/log/delAll','清空日志','',3,'undefined',0,'',1582959143,'admin',1582959143,'admin'),
+('45235621697949696','','','40238597734928384',1,1.21,'','/skeleton/department/add','添加部门','',3,'add',0,'',1582959143,'admin',1582959143,'admin'),
+('45235787867885568','','','40238597734928384',1,1.22,'','/skeleton/department/edit','编辑部门','',3,'edit',0,'',1582959143,'admin',1582959143,'admin'),
+('45235939278065664','','','40238597734928384',1,1.23,'','/skeleton/department/delByIds/*','删除部门','',3,'delete',0,'',1582959143,'admin',1582959143,'admin'),
+('84907582589767680','','quartz-job','39915540965232640',0,2.10,'module/sys/quartz-manage/quartzManage','quartz-job','定时任务','md-time',2,'',0,'',1582959143,'admin',1582959143,'admin'),
+('84907899767230464','','','84907582589767680',1,2.11,'','/skeleton/quartzJob/add*','添加定时任务','',3,'add',0,'',1582959143,'admin',1582959143,'admin'),
+('84908172535402496','','','84907582589767680',1,2.12,'','/skeleton/quartzJob/edit*','编辑定时任务','',3,'edit',0,'',1582959143,'admin',1582959143,'admin'),
+('84908391842975744','','','84907582589767680',1,2.13,'','/skeleton/quartzJob/pause*','暂停定时任务','',3,'disable',0,'',1582959143,'admin',1582959143,'admin'),
+('84908678297161728','','','84907582589767680',1,2.14,'','/skeleton/quartzJob/resume*','恢复定时任务','',3,'enable',0,'',1582959143,'admin',1582959143,'admin'),
+('84908899202764800','','','84907582589767680',1,2.15,'','/skeleton/quartzJob/delByIds/*','删除定时任务','',3,'delete',0,'',1582959143,'admin',1582959143,'admin'),
+('126477677677776896','','article','',0,1.00,'Main','/article','文章管理','ios-book',1,'',0,'',1582959143,'admin',1582959143,'admin'),
+('126478074127585280','','articleCategory','126477677677776896',0,1.00,'module/article/category/categoryManage','module/article/category','分类管理','md-bookmarks',2,'',0,'',1582959143,'admin',1582959143,'admin'),
+('126495528849510400','','articleInfo','126477677677776896',0,1.00,'module/article/info/articleManage','module/article/info','文章管理','ios-book-outline',2,'',0,'',1582959143,'admin',1582959143,'admin'),
+('126612524110974976','','','126478074127585280',1,1.00,'','/skeleton/article/category/add','添加分类','',3,'add',0,'',1582959143,'admin',1582959143,'admin'),
+('126612730214879232','','','126478074127585280',1,1.00,'','/skeleton/article/category/edit','修改分类','',3,'edit',0,'',1582959143,'admin',1582959143,'admin'),
+('126613271254929408','','','126478074127585280',1,1.00,'','/skeleton/article/category/delByIds/**','删除分类','',3,'delete',0,'',1582959143,'admin',1582959143,'admin'),
+('126613728463425536','','','126495528849510400',1,1.00,'','/skeleton/article/add','添加文章','',3,'add',0,'',1582959143,'admin',1582959143,'admin'),
+('126613843764842496','','','126495528849510400',1,1.00,'','/skeleton/article/delByIds/**','删除文章','',3,'delete',0,'',1582959143,'admin',1582959143,'admin'),
+('126613956428042240','','','126495528849510400',1,1.00,'','/skeleton/article/edit','修改文章','',3,'edit',0,'',1582959143,'admin',1582959143,'admin'),
+('126614281000062976','','','126495528849510400',1,1.00,'','/skeleton/article/enable/**','启用文章','',3,'enable',0,'',1582959143,'admin',1582959143,'admin'),
+('126614454480670720','','','126495528849510400',1,1.00,'','/skeleton/article/disable/**','禁用文章','',3,'disable',0,'',1582959143,'admin',1582959143,'admin');
 
 /*Table structure for table `sys_role` */
 
@@ -498,9 +496,9 @@ CREATE TABLE `sys_role` (
   `default_role` bit(1) DEFAULT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
   `data_type` int(11) DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(11) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(11) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -508,8 +506,8 @@ CREATE TABLE `sys_role` (
 /*Data for the table `sys_role` */
 
 insert  into `sys_role`(`id`,`name`,`default_role`,`description`,`data_type`,`created_at`,`created_by`,`updated_at`,`updated_by`) values 
-('496138616573952','ROLE_ADMIN','','超级管理员 拥有所有权限',NULL,'2018-04-22 23:03:49','admin','2019-04-05 23:39:31','admin'),
-('496138616573953','ROLE_USER','\0','普通浏览',NULL,'2018-05-02 21:40:03','admin','2019-04-05 23:39:25','admin');
+('496138616573952','ROLE_ADMIN','','超级管理员 拥有所有权限',NULL,1582959143,'admin',1582963317,'admin'),
+('496138616573953','ROLE_USER','\0','普通浏览',NULL,1582959143,'admin',1582963315,'admin');
 
 /*Table structure for table `sys_role_permission` */
 
@@ -519,9 +517,9 @@ CREATE TABLE `sys_role_permission` (
   `id` varchar(32) NOT NULL,
   `permission_id` varchar(32) NOT NULL DEFAULT '',
   `role_id` varchar(32) NOT NULL DEFAULT '',
-  `created_at` datetime DEFAULT NULL,
+  `created_at` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by` varchar(32) NOT NULL DEFAULT '',
-  `updated_at` datetime DEFAULT NULL,
+  `updated_at` int(10) unsigned NOT NULL DEFAULT '0',
   `updated_by` varchar(32) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -529,59 +527,59 @@ CREATE TABLE `sys_role_permission` (
 /*Data for the table `sys_role_permission` */
 
 insert  into `sys_role_permission`(`id`,`permission_id`,`role_id`,`created_at`,`created_by`,`updated_at`,`updated_by`) values 
-('126617812872466432','41364927394353152','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812864077824','41363537456533504','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812859883520','41363147411427328','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812851494912','84908899202764800','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812847300608','84908678297161728','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812843106304','84908391842975744','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812834717696','84908172535402496','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812830523392','84907899767230464','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812826329088','84907582589767680','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812822134784','39915540965232640','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812813746176','16695243126607872','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812809551872','16695107491205120','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812801163264','16694861252005888','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812792774656','5129710648430595','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812788580352','16690313745666048','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812784386048','16689883993083904','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812780191744','16689745006432256','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812775997440','16689632049631232','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812767608832','16687383932047360','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812763414528','5129710648430594','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812759220224','45235939278065664','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812755025920','45235787867885568','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812746637312','45235621697949696','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812742443008','40238597734928384','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812729860096','16678447719911424','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812725665792','15708892205944832','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812721471488','15701915807518720','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812713082880','16678126574637056','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812708888576','15701400130424832','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812700499968','5129710648430593','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812696305664','5129710648430592','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126632044707975168','5129710648430595','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044703780864','5129710648430594','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044691197952','40238597734928384','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044682809344','5129710648430593','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044678615040','5129710648430592','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044666032128','126495528849510400','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044661837824','126478074127585280','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044645060608','126477677677776896','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126617812692111360','126614454480670720','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812683722752','126614281000062976','496138616573952','2019-04-05 23:46:20','admin','2019-04-05 23:46:20','admin'),
-('126617812679528448','126613956428042240','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126617812671139840','126613843764842496','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126617812662751232','126613728463425536','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126617812654362624','126495528849510400','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126617812645974016','126613271254929408','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126617812641779712','126612730214879232','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126617812633391104','126612524110974976','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126617812625002496','126478074127585280','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126617812616613888','126477677677776896','496138616573952','2019-04-05 23:46:19','admin','2019-04-05 23:46:19','admin'),
-('126632044716363776','39915540965232640','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044720558080','84907582589767680','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin'),
-('126632044724752384','41363147411427328','496138616573953','2019-04-06 00:42:53','admin','2019-04-06 00:42:53','admin');
+('126617812872466432','41364927394353152','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812864077824','41363537456533504','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812859883520','41363147411427328','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812851494912','84908899202764800','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812847300608','84908678297161728','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812843106304','84908391842975744','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812834717696','84908172535402496','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812830523392','84907899767230464','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812826329088','84907582589767680','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812822134784','39915540965232640','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812813746176','16695243126607872','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812809551872','16695107491205120','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812801163264','16694861252005888','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812792774656','5129710648430595','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812788580352','16690313745666048','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812784386048','16689883993083904','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812780191744','16689745006432256','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812775997440','16689632049631232','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812767608832','16687383932047360','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812763414528','5129710648430594','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812759220224','45235939278065664','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812755025920','45235787867885568','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812746637312','45235621697949696','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812742443008','40238597734928384','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812729860096','16678447719911424','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812725665792','15708892205944832','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812721471488','15701915807518720','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812713082880','16678126574637056','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812708888576','15701400130424832','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812700499968','5129710648430593','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812696305664','5129710648430592','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126632044707975168','5129710648430595','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044703780864','5129710648430594','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044691197952','40238597734928384','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044682809344','5129710648430593','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044678615040','5129710648430592','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044666032128','126495528849510400','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044661837824','126478074127585280','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044645060608','126477677677776896','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126617812692111360','126614454480670720','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812683722752','126614281000062976','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812679528448','126613956428042240','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812671139840','126613843764842496','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812662751232','126613728463425536','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812654362624','126495528849510400','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812645974016','126613271254929408','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812641779712','126612730214879232','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812633391104','126612524110974976','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812625002496','126478074127585280','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126617812616613888','126477677677776896','496138616573952',1582959143,'admin',1582959143,'admin'),
+('126632044716363776','39915540965232640','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044720558080','84907582589767680','496138616573953',1582959143,'admin',1582959143,'admin'),
+('126632044724752384','41363147411427328','496138616573953',1582959143,'admin',1582959143,'admin');
 
 /*Table structure for table `user_info` */
 
