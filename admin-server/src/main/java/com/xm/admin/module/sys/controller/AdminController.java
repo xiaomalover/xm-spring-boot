@@ -13,6 +13,7 @@ import com.xm.admin.module.sys.service.IAdminService;
 import com.xm.admin.module.sys.service.IDepartmentService;
 import com.xm.admin.module.sys.service.IRoleService;
 import com.xm.admin.module.sys.service.IUserRoleService;
+import com.xm.common.enums.CommonStatus;
 import com.xm.common.utils.CommonPageUtil;
 import com.xm.common.utils.ResultUtil;
 import com.xm.common.vo.ExtraVo;
@@ -334,7 +335,7 @@ public class AdminController {
         if (user == null) {
             return new ResultUtil<>().setErrorMsg("通过userId获取用户失败");
         }
-        user.setStatus(CommonConstant.USER_STATUS_LOCK);
+        user.setStatus(CommonStatus.STATUS_DISABLED.getStatus());
         adminService.updateById(user);
         //手动更新缓存
         redisTemplate.delete("admin::" + user.getUsername());
@@ -348,7 +349,7 @@ public class AdminController {
         if (user == null) {
             return new ResultUtil<>().setErrorMsg("通过userId获取用户失败");
         }
-        user.setStatus(CommonConstant.USER_STATUS_NORMAL);
+        user.setStatus(CommonStatus.STATUS_ENABLED.getStatus());
         adminService.updateById(user);
         //手动更新缓存
         redisTemplate.delete("admin::" + user.getUsername());

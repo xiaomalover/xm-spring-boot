@@ -21,8 +21,8 @@ public abstract class BaseCommonEntity implements Serializable {
     private String id = String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId());
 
     @TableField(fill = FieldFill.INSERT)
-    private String createdAt;
+    private Long createdAt;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String updatedAt;
+    private Long updatedAt;
 }

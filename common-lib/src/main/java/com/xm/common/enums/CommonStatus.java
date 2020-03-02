@@ -14,7 +14,12 @@ public enum CommonStatus {
     /**
      * 状态 - 无效
      */
-    STATUS_ENABLED(1, "有效");
+    STATUS_ENABLED(1, "有效"),
+
+    /**
+     * 状态 - 删除
+     */
+    STATUS_DELETED(2, "删除");
 
     /**
      * 状态

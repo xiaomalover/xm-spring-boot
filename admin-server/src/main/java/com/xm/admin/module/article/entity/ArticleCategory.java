@@ -56,7 +56,7 @@ public class ArticleCategory extends BaseEntity {
     /**
      * 状态
      */
-    private Boolean status;
+    private Integer status;
 
     @TableField(exist = false)
     private String parentTitle;

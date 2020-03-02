@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.xm.admin.common.annotation.SystemLog;
-import com.xm.admin.common.constant.CommonConstant;
 import com.xm.admin.config.exception.SkeletonException;
 import com.xm.admin.module.sys.entity.QuartzJob;
 import com.xm.admin.module.sys.service.IQuartzJobService;
+import com.xm.common.enums.CommonStatus;
 import com.xm.common.utils.CommonPageUtil;
 import com.xm.common.utils.ResultUtil;
 import com.xm.common.vo.ExtraVo;
@@ -59,7 +59,7 @@ public class QuartzJobController {
 
         delete(job.getJobClassName());
         add(job.getJobClassName(), job.getCronExpression(), job.getParameter());
-        job.setStatus(CommonConstant.STATUS_NORMAL);
+        job.setStatus(CommonStatus.STATUS_ENABLED.getStatus());
         quartzJobService.updateById(job);
         return new ResultUtil<>().setSuccessMsg("更新定时任务成功");
     }
@@ -73,7 +73,7 @@ public class QuartzJobController {
         } catch (SchedulerException e) {
             throw new SkeletonException("暂停定时任务失败");
         }
-        job.setStatus(CommonConstant.STATUS_DISABLE);
+        job.setStatus(CommonStatus.STATUS_DISABLED.getStatus());
         quartzJobService.updateById(job);
         return new ResultUtil<>().setSuccessMsg("暂停定时任务成功");
     }
@@ -87,7 +87,7 @@ public class QuartzJobController {
         } catch (SchedulerException e) {
             throw new SkeletonException("恢复定时任务失败");
         }
-        job.setStatus(CommonConstant.STATUS_NORMAL);
+        job.setStatus(CommonStatus.STATUS_ENABLED.getStatus());
         quartzJobService.updateById(job);
         return new ResultUtil<>().setSuccessMsg("恢复定时任务成功");
     }

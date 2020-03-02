@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.xm.admin.common.constant.CommonConstant;
 import com.xm.admin.module.sys.entity.Admin;
 import com.xm.admin.module.sys.entity.Department;
 import com.xm.admin.module.sys.entity.Permission;
@@ -14,6 +13,7 @@ import com.xm.admin.module.sys.mapper.PermissionMapper;
 import com.xm.admin.module.sys.mapper.UserRoleMapper;
 import com.xm.admin.module.sys.service.IAdminService;
 import com.xm.admin.module.sys.service.IDepartmentService;
+import com.xm.common.enums.CommonStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -57,7 +57,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
         QueryWrapper<Admin> adminQueryWrapper = new QueryWrapper<>();
         adminQueryWrapper.eq("username", username);
-        adminQueryWrapper.eq("status", CommonConstant.USER_STATUS_NORMAL);
+        adminQueryWrapper.eq("status", CommonStatus.STATUS_ENABLED.getStatus());
         Admin admin = getOne(adminQueryWrapper);
 
         if (!ObjectUtils.isEmpty(admin)) {

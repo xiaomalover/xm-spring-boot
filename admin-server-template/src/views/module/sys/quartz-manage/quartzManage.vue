@@ -151,7 +151,7 @@
                         width: 140,
                         render: (h, params) => {
                             let re = "";
-                            if (params.row.status === 0) {
+                            if (params.row.status === 1) {
                                 return h("div", [
                                     h(
                                         "Tag",
@@ -164,7 +164,7 @@
                                         "执行中"
                                     )
                                 ]);
-                            } else if (params.row.status === -1) {
+                            } else if (params.row.status === 0) {
                                 return h("div", [
                                     h(
                                         "Tag",
@@ -182,19 +182,19 @@
                         filters: [
                             {
                                 label: "执行中",
-                                value: 0
+                                value: 1
                             },
                             {
                                 label: "已停止",
-                                value: -1
+                                value: 0
                             }
                         ],
                         filterMultiple: false,
                         filterMethod(value, row) {
-                            if (value === 0) {
+                            if (value === 1) {
+                                return row.status === 1;
+                            } else if (value === 0) {
                                 return row.status === 0;
-                            } else if (value === -1) {
-                                return row.status === -1;
                             }
                         }
                     },
@@ -289,7 +289,7 @@
                             }
 
                             let runOrResume = "";
-                            if (params.row.status == 0) {
+                            if (params.row.status == 1) {
                                 runOrResume = disableBtn;
                             } else {
                                 runOrResume = enableBtn;

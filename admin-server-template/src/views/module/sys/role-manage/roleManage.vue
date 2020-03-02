@@ -323,7 +323,7 @@
             deleteDisableNode(permData) {
                 let that = this;
                 permData.forEach(function (e) {
-                    if (e.status === -1) {
+                    if (e.status === 0) {
                         e.title = "[已禁用] " + e.title;
                         e.disabled = true;
                     }
