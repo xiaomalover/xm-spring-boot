@@ -2,7 +2,7 @@ Xm Spring Boot
 ===================================
 这是一个Spring Boot的基础项目
 
-在线demo 后台 http://47.91.157.230:2003 前端 http://47.91.157.230:2001
+在线demo 后台 http://47.91.157.230:2003 (账号：test, 密码:123456) 前端 http://47.91.157.230:2001
 
 如果你更需要Spring-cloud版本，请移步 [xm-skeleton](https://github.com/xiaomalover/xm-skeleton "XM Skeleton"). 
 
