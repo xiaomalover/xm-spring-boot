@@ -16,14 +16,13 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         Long now = getTimestamp();
-        String nowString = now.toString();
-        setFieldValByName("createdAt", nowString, metaObject);
-        setFieldValByName("updatedAt", nowString, metaObject);
+        setFieldValByName("createdAt", now, metaObject);
+        setFieldValByName("updatedAt", now, metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName("updatedAt", getTimestamp().toString(), metaObject);
+        setFieldValByName("updatedAt", getTimestamp(), metaObject);
     }
 
     private Long getTimestamp() {
