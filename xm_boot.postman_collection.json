@@ -51,18 +51,7 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "account",
-							"value": "aaaa",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "text"
-						}
-					]
+					"formdata": []
 				},
 				"url": {
 					"raw": "http://localhost:20001/api/article/articleCategory/list",
@@ -91,18 +80,7 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "account",
-							"value": "aaaa",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "text"
-						}
-					]
+					"formdata": []
 				},
 				"url": {
 					"raw": "http://localhost:20001/api/article/articleInfo/list",
@@ -131,18 +109,7 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "account",
-							"value": "aaaa",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "123456",
-							"type": "text"
-						}
-					]
+					"formdata": []
 				},
 				"url": {
 					"raw": "http://localhost:20001/api/article/articleInfo/detail/246504515371536384",
@@ -172,7 +139,7 @@
 				"header": [
 					{
 						"key": "token",
-						"value": "76f3a8c41df5bf76c77e46cd02b11239",
+						"value": "dedc9deb0a721b57015b159058f4953c",
 						"type": "text"
 					}
 				],
