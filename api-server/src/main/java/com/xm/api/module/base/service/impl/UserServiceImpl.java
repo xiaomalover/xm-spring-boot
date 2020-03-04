@@ -8,6 +8,7 @@ import com.xm.api.module.base.dto.UserRegisterRequest;
 import com.xm.api.module.base.entity.User;
 import com.xm.api.module.base.mapper.UserMapper;
 import com.xm.api.module.base.service.IUserService;
+import com.xm.common.enums.CommonStatus;
 import com.xm.common.utils.ResultUtil;
 import com.xm.common.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User user = userMapper.selectByUsernameOrMobile(userLoginRequest.getAccount());
         if (ObjectUtil.isNull(user)) {
             return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户名不正确");
+        }
+
+        //用户禁用
+        if (user.getStatus() == CommonStatus.STATUS_DISABLED.getStatus()) {
+            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户被禁用");
+        }
+
+        //用户删除
+        if (user.getStatus() == CommonStatus.STATUS_DELETED.getStatus()) {
+            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户已被删除");
         }
 
         //校验密码

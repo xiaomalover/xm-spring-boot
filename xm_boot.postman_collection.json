@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "16b10002-8dda-4d1b-aa21-c04e0072fefa",
+		"name": "xm_boot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "登录",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "account",
+							"value": "xiaoma",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:20001/api/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20001",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "文章分类列表",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "account",
+							"value": "aaaa",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:20001/api/article/articleCategory/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20001",
+					"path": [
+						"api",
+						"article",
+						"articleCategory",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "文章列表",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "account",
+							"value": "aaaa",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:20001/api/article/articleInfo/list",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20001",
+					"path": [
+						"api",
+						"article",
+						"articleInfo",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "文章详情",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "account",
+							"value": "aaaa",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:20001/api/article/articleInfo/detail/246504515371536384",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20001",
+					"path": [
+						"api",
+						"article",
+						"articleInfo",
+						"detail",
+						"246504515371536384"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "用户信息",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "76f3a8c41df5bf76c77e46cd02b11239",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:20001/api/user/info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20001",
+					"path": [
+						"api",
+						"user",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "注册",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "aaaa",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "mobile",
+							"value": "13888888888",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:20001/api/user/register?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20001",
+					"path": [
+						"api",
+						"user",
+						"register"
+					],
+					"query": [
+						{
+							"key": "password",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

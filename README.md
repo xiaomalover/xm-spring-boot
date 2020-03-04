@@ -19,10 +19,11 @@ generator                               基于Mybatis-plus的生成工具
 
 运行
 --------
-1,先导入根目录下的数据库
+1, 先导入根目录下的数据库
 
 2, 启动管理后台，API服务
 
+3, 测试请用postman 导入要目录下的 xm_boot.postman_collection.json
 
 功能
 -------
