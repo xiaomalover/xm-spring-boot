@@ -78,14 +78,15 @@ skeleton:
 ignored:
   urls:
     - /skeleton/permission/getMenuList/**
-    - /skeleton/user/regist
     - /skeleton/common/**
-    - /druid/**
-    - /**/*.js
-    - /**/*.css
-    - /**/*.png
-    - /**/*.ico
-    - /test/**
+    - /
+    - /img/**
+    - /css/**
+    - /js/**
+    - /fonts/**
+    - /static/**
+    - /skeleton/ueditor/**
+    - /ueditor/**
 
 # Mybatis-plus
 mybatis-plus:

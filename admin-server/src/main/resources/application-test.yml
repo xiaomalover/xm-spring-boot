@@ -5,7 +5,7 @@ server:
 
 upload:
   rootPath: D:\uploads
-  domain: http://img.xm-boot.com/
+  domain: http://img.xm-bt.com/
 
 # 配置文件加密key
 jasypt:
@@ -78,14 +78,15 @@ skeleton:
 ignored:
   urls:
     - /skeleton/permission/getMenuList/**
-    - /skeleton/user/regist
     - /skeleton/common/**
-    - /druid/**
-    - /**/*.js
-    - /**/*.css
-    - /**/*.png
-    - /**/*.ico
-    - /test/**
+    - /
+    - /img/**
+    - /css/**
+    - /js/**
+    - /fonts/**
+    - /static/**
+    - /skeleton/ueditor/**
+    - /ueditor/**
 
 # Mybatis-plus
 mybatis-plus:
