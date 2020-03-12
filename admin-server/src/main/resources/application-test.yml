@@ -87,6 +87,7 @@ ignored:
     - /static/**
     - /skeleton/ueditor/**
     - /ueditor/**
+    - /*.*
 
 # Mybatis-plus
 mybatis-plus:
