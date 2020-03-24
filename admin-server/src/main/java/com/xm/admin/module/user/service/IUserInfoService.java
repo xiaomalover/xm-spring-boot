@@ -34,7 +34,7 @@ public interface IUserInfoService extends IService<UserInfo> {
     Result<Object> addUser(UserInfo userInfo);
 
     /**
-     * 添加用户
+     * 修改密码
      * @param id 用户ID
      * @param password 密码
      * @return Result
