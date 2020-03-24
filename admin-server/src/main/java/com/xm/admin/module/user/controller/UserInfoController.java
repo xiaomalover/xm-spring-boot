@@ -2,6 +2,7 @@ package com.xm.admin.module.user.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.xm.admin.common.annotation.SystemLog;
 import com.xm.admin.module.user.entity.UserInfo;
 import com.xm.admin.module.user.mapper.UserInfoMapper;
 import com.xm.admin.module.user.service.IUserInfoService;
@@ -95,5 +96,11 @@ public class UserInfoController {
         } else {
             return new ResultUtil<>().setErrorMsg("编辑用户失败");
         }
+    }
+
+    @PostMapping("/updatePassword")
+    @SystemLog(description = "修改用户密码")
+    public Result<Object> updatePassword(@RequestParam String id, @RequestParam String password) {
+        return userInfoService.updatePassword(id, password);
     }
 }
