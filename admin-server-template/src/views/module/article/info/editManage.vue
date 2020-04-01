@@ -90,6 +90,7 @@
 <script>
 
     import VueUeditorWrap from 'vue-ueditor-wrap'
+    import Cookies from "js-cookie";
 
     import {
         addArticle,
@@ -388,14 +389,19 @@
             },
 
             getImageBase() {
-                // 多条件搜索配置列表
-                this.loading = true;
-                getUploadDomain().then(res => {
-                    this.loading = false;
-                    if (res.success === true) {
-                        this.imageDomain = res.result;
-                    }
-                });
+                if(Cookies.get("imageDomain")) {
+                    this.imageDomain = Cookies.get("imageDomain");
+                } else {
+                    // 多条件搜索配置列表
+                    this.loading = true;
+                    getUploadDomain().then(res => {
+                        this.loading = false;
+                        if (res.success === true) {
+                            this.imageDomain = res.result;
+                            Cookies.set("imageDomain", this.imageDomain);
+                        }
+                    });
+                }
             },
         },
 
