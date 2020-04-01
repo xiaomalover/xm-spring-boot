@@ -240,6 +240,7 @@
             getParentList() {
                 loadArticleCategory(0).then(res => {
                     if (res.success === true) {
+                        this.loading = false;
                         res.result.forEach(function (e) {
                             if (e.isParent) {
                                 e.loading = false;
