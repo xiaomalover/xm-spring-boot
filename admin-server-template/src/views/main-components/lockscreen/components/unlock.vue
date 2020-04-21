@@ -6,7 +6,7 @@
     <transition name="show-unlock">
         <div class="unlock-body-con" v-if="showUnlock" @keydown.enter="handleUnlock">
             <div @click="handleClickAvator" class="unlock-avator-con" :style="{marginLeft: avatorLeft}">
-                <img class="unlock-avator-img" src="../../../../assets/avatar.png">
+                <img class="unlock-avator-img" :src="avatar">
                 <div class="unlock-avator-cover">
                     <span><Icon type="md-unlock" :size="30"></Icon></span>
                     <p>解锁</p>
@@ -36,7 +36,8 @@ export default {
       avatorLeft: "0px",
       inputLeft: "400px",
       password: "",
-      check: null
+      check: null,
+      avatar: "",
     };
   },
   props: {
@@ -50,7 +51,21 @@ export default {
       return localStorage.avatorImgPath;
     }
   },
+  mounted() {
+    this.init();
+  },
   methods: {
+    init() {
+        let userInfo = JSON.parse(Cookies.get("userInfo"));
+        this.username = userInfo.username;
+        this.userId = userInfo.id;
+
+        if (userInfo.avatar === "") {
+            this.avatar = require('../../../../assets/avatar.png');
+        } else {
+            this.avatar = userInfo.avatar;
+        }
+    },
     unlock() {
       this.avatorLeft = "0px";
       this.inputLeft = "400px";

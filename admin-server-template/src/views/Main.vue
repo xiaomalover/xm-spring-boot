@@ -47,7 +47,7 @@
                                     <Icon type="md-arrow-dropdown"/>
                                     <span class="ivu-avatar ivu-avatar-circle ivu-avatar-default ivu-avatar-image"
                                           style="background: rgb(97, 159, 231); margin-left: 10px;"><img
-                                            src="../assets/avatar.png"></span>
+                                            :src="avatar"></span>
                                 </a>
                                 <DropdownMenu slot="list">
                                     <DropdownItem name="ownSpace">{{ $t('userCenter') }}</DropdownItem>
@@ -98,6 +98,7 @@
             return {
                 shrink: false,
                 username: "",
+                avatar: "",
                 userId: "",
                 isFullScreen: false,
                 openedSubmenuArr: this.$store.state.app.openedSubmenuArr
@@ -145,6 +146,13 @@
                 let userInfo = JSON.parse(Cookies.get("userInfo"));
                 this.username = userInfo.username;
                 this.userId = userInfo.id;
+
+                if (userInfo.avatar === "") {
+                    this.avatar = require('../assets/avatar.png');
+                } else {
+                    this.avatar = userInfo.avatar;
+                }
+
                 this.checkTag(this.$route.name);
             },
             toggleClick() {

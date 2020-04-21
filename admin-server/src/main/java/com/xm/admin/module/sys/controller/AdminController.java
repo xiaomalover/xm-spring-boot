@@ -21,6 +21,7 @@ import com.xm.common.vo.ExtraVo;
 import com.xm.common.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -68,6 +69,9 @@ public class AdminController {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Value("${upload.domain}")
+    private String imageDomain;
 
     @PostMapping("/regist")
     public Result<Object> regist(@ModelAttribute Admin u,
@@ -146,6 +150,7 @@ public class AdminController {
         Admin old = adminService.getById(u.getId());
         u.setUsername(old.getUsername());
         u.setPassword(old.getPassword());
+        u.setAvatar(u.getAvatar().replace(this.imageDomain, ""));
         boolean suc = adminService.updateById(u);
         if (!suc) {
             return new ResultUtil<>().setErrorMsg("修改失败");
