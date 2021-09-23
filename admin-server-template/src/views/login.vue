@@ -52,7 +52,7 @@
 
 <script>
     import Cookies from "js-cookie";
-    import {getCaptcha, getJWT, initCaptcha, login, userInfo, getUploadDomain,} from "@/api/index";
+    import {getCaptcha, login, userInfo} from "@/api/index";
     import util from "@/libs/util.js";
 
     export default {
@@ -113,12 +113,9 @@
     },
 
     getCaptchaImg()  {
-        initCaptcha().then(res => {
-            var _captchaId = res.result.captchaId;
-            this.captchaId = _captchaId;
-            getCaptcha(_captchaId).then(res => {
-                this.imageBase64 = res.data;
-            })
+        getCaptcha().then(res => {
+            this.captchaId = res.result.captchaId;
+            this.imageBase64 = res.result.imgBase64;
         })
     },
 
@@ -151,14 +148,6 @@
               if (res.success === true) {
                 this.setStore("accessToken", res.result);
 
-                //设置图片主域名
-                getUploadDomain().then(res => {
-                  this.loading = false;
-                  if (res.success === true) {
-                    Cookies.set("imageDomain", res.result);
-                  }
-                });
-
                 // 获取用户信息
                 userInfo().then(res => {
                   if (res.success === true) {
@@ -176,9 +165,10 @@
                     this.$store.commit("setAvatarPath", res.result.avatar);
                     // 加载菜单
                     util.initRouter(this);
-                    this.$router.push({
+                    /*this.$router.push({
                       name: "home_index"
-                    });
+                    });*/
+                    window.location.reload();
                   } else {
                     this.loading = false;
                   }

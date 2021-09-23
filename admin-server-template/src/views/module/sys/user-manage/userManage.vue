@@ -12,6 +12,10 @@
                                 <Input type="text" v-model="searchForm.username" clearable placeholder="请输入用户名"
                                        style="width: 200px"/>
                             </Form-item>
+                            <Form-item label="SN" prop="sn">
+                                <Input type="text" v-model="searchForm.sn" clearable placeholder="请输入用户SN"
+                                       style="width: 250px"/>
+                            </Form-item>
                             <Form-item label="部门" prop="department">
                                 <Cascader v-model="selectDep" :data="department" :load-data="loadData"
                                           @on-change="handleChangeDep" change-on-select filterable
@@ -60,8 +64,8 @@
                         </Form>
                     </Row>
                     <Row class="operation">
-                        <Button @click="add" type="primary" v-has="'add'" icon="md-add">添加用户</Button>
-                        <Button @click="delAll" v-has="'delete'" icon="md-trash">批量删除</Button>
+                        <Button @click="add" type="primary" v-if="permTypes.length > 0" v-has="'add'" icon="md-add">添加用户</Button>
+                        <Button @click="delAll" v-if="permTypes.length > 0" v-has="'delete'" icon="md-trash">批量删除</Button>
                         <Dropdown @on-click="handleDropdown">
                             <Button>
                                 更多操作
@@ -107,6 +111,9 @@
                 </FormItem>
                 <FormItem label="手机号" prop="mobile">
                     <Input v-model="userForm.mobile"/>
+                </FormItem>
+                <FormItem label="昵称" prop="nickname">
+                    <Input v-model="userForm.nickname" autocomplete="off"/>
                 </FormItem>
                 <FormItem label="性别" prop="sex">
                     <RadioGroup v-model="userForm.sex">
@@ -240,7 +247,8 @@
                     sort: "createdAt",
                     order: "desc",
                     startDate: "",
-                    endDate: ""
+                    endDate: "",
+                    sn: "",
                 },
                 selectDate: null,
                 modalType: 0,
@@ -252,9 +260,11 @@
                     sex: 1,
                     type: 0,
                     roles: [],
+                    password: "",
                     username: "",
                     email: "",
                     mobile: "",
+                    nickname: "",
                     departmentId: "",
                     departmentTitle: ""
                 },
@@ -301,39 +311,34 @@
                         fixed: "left"
                     },
                     {
-                        type: "index",
-                        width: 60,
-                        align: "center",
-                        fixed: "left"
-                    },
-                    {
                         title: "用户名",
                         key: "username",
-                        width: 145,
-                        sortable: true,
-                        fixed: "left"
+                        minWidth: 100,
+                    },
+                    {
+                        title: "昵称",
+                        key: "nickname",
+                        minWidth: 100,
                     },
                     {
                         title: "所属部门",
                         key: "departmentTitle",
-                        //width: 120
+                        minWidth: 120,
                     },
                     {
                         title: "手机",
                         key: "mobile",
-                        width: 115,
-                        sortable: true
+                        minWidth: 120,
                     },
                     {
                         title: "邮箱",
                         key: "email",
-                        width: 180,
-                        sortable: true
+                        minWidth: 120,
                     },
                     {
                         title: "性别",
                         key: "sex",
-                        width: 70,
+                        minWidth: 70,
                         align: "center",
                         render: (h, params) => {
                             let re = "";
@@ -349,7 +354,7 @@
                         title: "用户类型",
                         key: "type",
                         align: "center",
-                        width: 100,
+                        minWidth: 100,
                         render: (h, params) => {
                             let re = "";
                             if (params.row.type === 1) {
@@ -364,7 +369,7 @@
                         title: "状态",
                         key: "status",
                         align: "center",
-                        width: 140,
+                        minWidth: 120,
                         render: (h, params) => {
                             let re = "";
                             if (params.row.status === 1) {
@@ -417,6 +422,7 @@
                     {
                         title: "创建时间",
                             key: "createdAt",
+                            minWidth: 150,
                             sortable: true,
                             sortType: "desc",
                             render: (h, params) => {

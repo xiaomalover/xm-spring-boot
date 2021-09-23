@@ -29,7 +29,7 @@ public class RestExceptionHandler {
     public Result error(BindException e) {
         List<ObjectError> allErrors = e.getAllErrors(); // 拿到异常信息
         String errMessage = getErrMessage(allErrors);   // 拼接, 返回前端
-        return new ResultUtil<>().setErrorMsg(errMessage);
+        return new ResultUtil<>().error(errMessage);
     }
 
     /**
@@ -38,7 +38,7 @@ public class RestExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Object requestNotReadable(Exception e) {
-        return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+        return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
     /**

@@ -40,11 +40,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         UserInfo exist;
         exist = userInfoMapper.selectByUsername(userInfo.getUsername());
         if (ObjectUtil.isNotNull(exist)) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户名已被注册");
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户名已被注册");
         }
         exist = userInfoMapper.selectByMobile(userInfo.getMobile());
         if (ObjectUtil.isNotNull(exist)) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "手机号已被注册");
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "手机号已被注册");
         }
 
 
@@ -55,9 +55,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         //密码加密
         user.setPassword(this.encodePassword(userInfo.getPassword()));
         if (save(user)) {
-            return new ResultUtil<>().setData(null);
+            return new ResultUtil<>().success(null);
         } else {
-            return new ResultUtil<>().setErrorMsg("添加失败");
+            return new ResultUtil<>().error("添加失败");
         }
     }
 
@@ -69,10 +69,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         old.setPassword(newEncryptPass);
         boolean sec = updateById(old);
         if (!sec) {
-            return new ResultUtil<>().setErrorMsg("修改失败");
+            return new ResultUtil<>().error("修改失败");
         }
 
-        return new ResultUtil<>().setData(old);
+        return new ResultUtil<>().success(old);
     }
 
 

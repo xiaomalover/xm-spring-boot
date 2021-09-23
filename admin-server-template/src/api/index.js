@@ -1,14 +1,9 @@
 // 统一请求路径前缀在libs/axios.js中修改
 import { getRequest, postRequest, putRequest, deleteRequest, uploadFileRequest } from '@/libs/axios';
 
-//获取验证码id
-export const initCaptcha = (params) => {
-    return getRequest('/common/captcha/init')
-};
-
 //获取验证码
 export const getCaptcha = (id, params) => {
-    return getRequest(`/common/captcha/draw/${id}`)
+    return getRequest('/captcha/getCaptcha')
 };
 
 // 登陆
@@ -249,8 +244,6 @@ export const editArticle = (params) => {
     return postRequest('/article/edit', params)
 };
 
-export const uploadArticleThumb = "/skeleton/upload/articleThumb";
-
 // 启用文章
 export const enableArticle = (id, params) => {
     return postRequest(`/article/enable/${id}`, params)
@@ -268,13 +261,10 @@ export const deleteArticle = (ids, params) => {
 
 //上传图片
 export const uploadCommon = (params) => {
-    return uploadFileRequest('/upload/common', params)
+    return uploadFileRequest('/file/upload', params)
 };
 
-//获取上传文件访问域名
-export const getUploadDomain = () => {
-    return getRequest('/upload/getDomain');
-};
+export const uploadArticleThumb = "/skeleton/file/upload?folder=article-thumb";
 
 // 获取用户数据 多条件
 export const getUserInfoListData = (params) => {

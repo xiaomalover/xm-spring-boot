@@ -1,5 +1,6 @@
 package com.xm.admin.module.sys.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.xm.common.utils.CaptchaUtil;
 import com.xm.common.utils.ResultUtil;
@@ -21,32 +22,36 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author xiaomalover <xiaomalover@gmail.com>
  */
-@RequestMapping("/skeleton/common/captcha")
+@RequestMapping("/captcha")
 @RestController
-@Transactional
 public class CaptchaController {
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
-    @GetMapping("/init")
-    public Result<Object> initCaptcha() {
-
-        String captchaId = UUID.randomUUID().toString().replace("-", "");
-        String code = new CaptchaUtil().randomStr(4);
-        Captcha captcha = new Captcha();
-        captcha.setCaptchaId(captchaId);
-        //缓存验证码
-        redisTemplate.opsForValue().set(captchaId, code, 3L, TimeUnit.MINUTES);
-        return new ResultUtil<Object>().setData(captcha);
+    public CaptchaController(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
 
-    @GetMapping("/draw/{captchaId}")
-    public JSONObject drawCaptcha(@PathVariable("captchaId") String captchaId, HttpServletResponse response) throws IOException {
+    @GetMapping("/getCaptcha")
+    public Result<Object> getCaptcha() {
 
-        //得到验证码 生成指定验证码
-        String code = redisTemplate.opsForValue().get(captchaId);
-        CaptchaUtil vCode = new CaptchaUtil(108, 36, 4, 10, code);
-        return vCode.getBase64Captcha();
+        //生成验证码，并缓存
+        String captchaId = UUID.randomUUID().toString().replace("-", "");
+        String code = new CaptchaUtil().randomStr(4);
+        redisTemplate.opsForValue().set(captchaId, code, 3L, TimeUnit.MINUTES);
+
+        //验证码生成图片
+        CaptchaUtil vCode = new CaptchaUtil(108, 40, 4, 10, code);
+        String codeBae64 = vCode.getBase64Captcha();
+
+        if (StrUtil.isBlank(codeBae64)) {
+            return new ResultUtil<>().error("获取验证码失败");
+        }
+
+        Captcha captcha = new Captcha();
+        captcha.setCaptchaId(captchaId);
+        captcha.setImgBase64(codeBae64);
+
+        return new ResultUtil<>().success(captcha);
     }
 }

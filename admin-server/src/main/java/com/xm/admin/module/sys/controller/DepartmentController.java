@@ -30,7 +30,7 @@ import java.util.Set;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
-@RequestMapping("/skeleton/department")
+@RequestMapping("/department")
 @CacheConfig(cacheNames = "department")
 @Transactional
 public class DepartmentController {
@@ -60,7 +60,7 @@ public class DepartmentController {
                 item.setParentTitle("一级部门");
             }
         });
-        return new ResultUtil<List<Department>>().setData(list);
+        return new ResultUtil<List<Department>>().success(list);
     }
 
     @PostMapping("/add")
@@ -79,7 +79,7 @@ public class DepartmentController {
                 redisTemplate.delete("department::" + parent.getParentId());
             }
         }
-        return new ResultUtil<Department>().setData(department);
+        return new ResultUtil<Department>().success(department);
     }
 
     @PostMapping("/edit")
@@ -96,7 +96,7 @@ public class DepartmentController {
         if (!ObjectUtils.isEmpty(keysUser)) {
             redisTemplate.delete(keysUser);
         }
-        return new ResultUtil<Department>().setData(department);
+        return new ResultUtil<Department>().success(department);
     }
 
     @DeleteMapping("/delByIds/{ids}")
@@ -105,7 +105,7 @@ public class DepartmentController {
         for (String id : ids) {
             Admin admin = adminService.getOne(new QueryWrapper<Admin>().eq("department_id", id));
             if (!ObjectUtils.isEmpty(admin)) {
-                return new ResultUtil<>().setErrorMsg("删除失败，包含正被用户使用关联的部门");
+                return new ResultUtil<>().error("删除失败，包含正被用户使用关联的部门");
             }
         }
         for (String id : ids) {
@@ -116,6 +116,6 @@ public class DepartmentController {
         if (!ObjectUtils.isEmpty(keys)) {
             redisTemplate.delete(keys);
         }
-        return new ResultUtil<>().setSuccessMsg("批量通过id删除数据成功");
+        return new ResultUtil<>().success("批量通过id删除数据成功");
     }
 }

@@ -5,9 +5,9 @@
     <div class="search">
         <Card>
             <Row class="operation">
-                <Button @click="addMenu" type="primary" icon="md-add" v-has="'add'">添加子节点</Button>
-                <Button @click="addRootMenu" icon="md-add" v-has="'add'">添加一级菜单</Button>
-                <Button @click="delAll" icon="md-trash" v-has="'delete'">批量删除</Button>
+                <Button @click="addMenu" type="primary" icon="md-add" v-if="permTypes.length > 0" v-has="'add'">添加子节点</Button>
+                <Button @click="addRootMenu" icon="md-add" v-if="permTypes.length > 0" v-has="'add'">添加一级菜单</Button>
+                <Button @click="delAll" icon="md-trash" v-if="permTypes.length > 0" v-has="'delete'">批量删除</Button>
                 <Dropdown @on-click="handleDropdown">
                     <Button>
                         更多操作
@@ -106,7 +106,7 @@
                         </FormItem>
                         <Form-item>
                             <Button @click="submitEdit" :loading="submitLoading" type="primary"
-                                    icon="ios-create-outline" v-has="'edit'">修改并保存
+                                    icon="ios-create-outline" v-if="permTypes.length > 0" v-has="'edit'">修改并保存
                             </Button>
                             <Button @click="handleReset">重置</Button>
                         </Form-item>
@@ -262,6 +262,7 @@
                     {title: "分配权限", value: "editPerm"},
                     {title: "设为默认", value: "setDefault"},
                     {title: "修改密码", value: "updatePassword"},
+                    {title: "充值", value: "recharge"},
                     {title: "其他操作", value: "other"}
                 ]
             };
@@ -510,10 +511,17 @@
                         });
                     }
                 });
-            }
+            },
+            initMeta() {
+                let permTypes = this.$route.meta.permTypes;
+                if (permTypes !== null && permTypes !== undefined) {
+                    this.permTypes = permTypes;
+                }
+            },
         },
         mounted() {
             this.init();
+            this.initMeta();
         }
     };
 </script>

@@ -29,9 +29,6 @@
 <script>
 import { unlock } from "@/api/index";
 import Cookies from "js-cookie";
-import {
-    getUploadDomain
-} from "@/api/index";
 
 export default {
   name: "Unlock",
@@ -42,7 +39,6 @@ export default {
       password: "",
       check: null,
       avatar: "",
-      imageDomain: "",
     };
   },
   props: {
@@ -68,33 +64,8 @@ export default {
         if (userInfo.avatar === "") {
             this.avatar = require('../../../../assets/avatar.png');
         } else {
-            this.getImageBase();
-            if (userInfo.avatar.indexOf(this.imageDomain) !== -1) {
-                this.avatar = userInfo.avatar;
-            } else {
-                if (userInfo.avatar.indexOf("avatar") === -1) {
-                    this.avatar = this.imageDomain + "/" + userInfo.avatar;
-                } else {
-                    this.avatar = userInfo.avatar;
-                }
-            }
+            this.avatar = userInfo.avatar;
         }
-    },
-
-    getImageBase() {
-      if(Cookies.get("imageDomain")) {
-          this.imageDomain = Cookies.get("imageDomain");
-      } else {
-        // 多条件搜索配置列表
-        this.loading = true;
-        getUploadDomain().then(res => {
-          this.loading = false;
-          if (res.success === true) {
-              this.imageDomain = res.result;
-              Cookies.set("imageDomain", this.imageDomain);
-          }
-        });
-      }
     },
 
     unlock() {

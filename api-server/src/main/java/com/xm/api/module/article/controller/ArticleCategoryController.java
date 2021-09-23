@@ -36,6 +36,6 @@ public class ArticleCategoryController {
         // lambda表达式
         list.forEach(item -> {
         });
-        return new ResultUtil<List<ArticleCategory>>().setData(list);
+        return new ResultUtil<List<ArticleCategory>>().success(list);
     }
 }

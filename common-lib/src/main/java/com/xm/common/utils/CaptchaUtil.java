@@ -1,6 +1,7 @@
 package com.xm.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xm.common.vo.Result;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,7 +17,6 @@ import java.util.Random;
  *
  * @author xiaomalover <xiaomalover@gmail.com>
  */
-@SuppressWarnings("unused")
 public class CaptchaUtil {
 
     /**
@@ -259,7 +259,7 @@ public class CaptchaUtil {
         sos.close();
     }
 
-    public JSONObject getBase64Captcha() {
+    public String getBase64Captcha() {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();//io流
         try {
@@ -271,17 +271,10 @@ public class CaptchaUtil {
             png_base64 = png_base64.replaceAll("\n", "").replaceAll("\r", "");
 
             //返回成功数据
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("status", true);
-            jsonObject.put("message", "获取验证码成功");
-            jsonObject.put("data", "data:image/png;base64," + png_base64);
-            return jsonObject;
+            return "data:image/png;base64," + png_base64;
         } catch (IOException e) {
             //返回失败数据
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("status", false);
-            jsonObject.put("message", "获取验证码失败");
-            return jsonObject;
+            return "";
         }
     }
 

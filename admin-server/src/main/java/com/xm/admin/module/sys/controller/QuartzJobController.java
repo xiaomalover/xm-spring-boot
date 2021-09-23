@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/skeleton/quartzJob")
+@RequestMapping("/quartzJob")
 public class QuartzJobController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class QuartzJobController {
 
         IPage<QuartzJob> page = new CommonPageUtil<QuartzJob>().initIPage(extraVo);
         IPage<QuartzJob> data = quartzJobService.page(page);
-        return new ResultUtil<IPage<QuartzJob>>().setData(data);
+        return new ResultUtil<IPage<QuartzJob>>().success(data);
     }
 
     @PostMapping("/add")
@@ -45,11 +45,11 @@ public class QuartzJobController {
 
         QuartzJob quartzJob = quartzJobService.getOne(new QueryWrapper<QuartzJob>().eq("job_class_name", job.getJobClassName()));
         if (!ObjectUtils.isEmpty(quartzJob)) {
-            return new ResultUtil<>().setErrorMsg("该定时任务类名已存在");
+            return new ResultUtil<>().error("该定时任务类名已存在");
         }
         add(job.getJobClassName(), job.getCronExpression(), job.getParameter());
         quartzJobService.save(job);
-        return new ResultUtil<>().setSuccessMsg("创建定时任务成功");
+        return new ResultUtil<>().success("创建定时任务成功");
     }
 
     @PostMapping("/edit")
@@ -59,7 +59,7 @@ public class QuartzJobController {
         add(job.getJobClassName(), job.getCronExpression(), job.getParameter());
         job.setStatus(CommonStatus.STATUS_ENABLED.getStatus());
         quartzJobService.updateById(job);
-        return new ResultUtil<>().setSuccessMsg("更新定时任务成功");
+        return new ResultUtil<>().success("更新定时任务成功");
     }
 
     @PostMapping("/pause")
@@ -73,7 +73,7 @@ public class QuartzJobController {
         }
         job.setStatus(CommonStatus.STATUS_DISABLED.getStatus());
         quartzJobService.updateById(job);
-        return new ResultUtil<>().setSuccessMsg("暂停定时任务成功");
+        return new ResultUtil<>().success("暂停定时任务成功");
     }
 
     @PostMapping("/resume")
@@ -87,7 +87,7 @@ public class QuartzJobController {
         }
         job.setStatus(CommonStatus.STATUS_ENABLED.getStatus());
         quartzJobService.updateById(job);
-        return new ResultUtil<>().setSuccessMsg("恢复定时任务成功");
+        return new ResultUtil<>().success("恢复定时任务成功");
     }
 
     @DeleteMapping("/delByIds/{ids}")
@@ -98,7 +98,7 @@ public class QuartzJobController {
             delete(job.getJobClassName());
             quartzJobService.removeById(job);
         }
-        return new ResultUtil<>().setSuccessMsg("删除定时任务成功");
+        return new ResultUtil<>().success("删除定时任务成功");
     }
 
     /**

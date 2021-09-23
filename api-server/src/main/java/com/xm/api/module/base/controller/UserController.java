@@ -39,7 +39,7 @@ public class UserController {
         if (loginResult.isSuccess()) {
             //服务端返回成功存入TOKEN
             User userModel = (User) loginResult.getResult();
-            return new ResultUtil<>().setData(tokenManager.createToken(userModel.getId()));
+            return new ResultUtil<>().success(tokenManager.createToken(userModel.getId()));
         }
         return loginResult;
     }
@@ -47,6 +47,6 @@ public class UserController {
     @GetMapping(value = "/info", produces = {"application/json;charset=UTF-8"})
     public Object userInfo(@CurrentUser String userId) {
         User userModel = userService.getUser(userId);
-        return new ResultUtil<>().setData(userModel);
+        return new ResultUtil<>().success(userModel);
     }
 }

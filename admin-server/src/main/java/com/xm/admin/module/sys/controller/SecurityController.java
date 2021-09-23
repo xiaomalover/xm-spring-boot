@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/skeleton/common")
+@RequestMapping("/common")
 public class SecurityController {
 
     @GetMapping("/needLogin")
     public Result<Object> needLogin() {
-        return new ResultUtil<>().setErrorMsg(401, "您还未登录");
+        return new ResultUtil<>().error(401, "您还未登录");
     }
 }

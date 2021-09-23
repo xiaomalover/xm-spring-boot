@@ -75,10 +75,6 @@
 
 <script>
 
-    import {
-        getUploadDomain
-    } from "@/api/index";
-
     import shrinkableMenu from "./main-components/shrinkable-menu/shrinkable-menu.vue";
     import tagsPageOpened from "./main-components/tags-page-opened.vue";
     import breadcrumbNav from "./main-components/breadcrumb-nav.vue";
@@ -107,7 +103,6 @@
                 userId: "",
                 isFullScreen: false,
                 openedSubmenuArr: this.$store.state.app.openedSubmenuArr,
-                imageDomain: "",
             };
         },
         computed: {
@@ -156,34 +151,10 @@
                 if (userInfo.avatar === "") {
                     this.avatar = require('../assets/avatar.png');
                 } else {
-                    this.getImageBase();
-                    if (userInfo.avatar.indexOf(this.imageDomain) !== -1) {
-                        this.avatar = userInfo.avatar;
-                    } else {
-                        if (userInfo.avatar.indexOf("avatar") === -1) {
-                            this.avatar = this.imageDomain + "/" + userInfo.avatar;
-                        } else {
-                            this.avatar = userInfo.avatar;
-                        }
-                    }
+                    this.avatar = userInfo.avatar;
                 }
 
                 this.checkTag(this.$route.name);
-            },
-            getImageBase() {
-                if(Cookies.get("imageDomain")) {
-                    this.imageDomain = Cookies.get("imageDomain");
-                } else {
-                    // 多条件搜索配置列表
-                    this.loading = true;
-                    getUploadDomain().then(res => {
-                        this.loading = false;
-                        if (res.success === true) {
-                            this.imageDomain = res.result;
-                            Cookies.set("imageDomain", this.imageDomain);
-                        }
-                    });
-                }
             },
             toggleClick() {
                 this.shrink = !this.shrink;

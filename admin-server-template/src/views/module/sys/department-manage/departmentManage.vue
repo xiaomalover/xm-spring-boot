@@ -5,9 +5,9 @@
     <div class="search">
         <Card>
             <Row class="operation">
-                <Button @click="add" v-has="'add'" type="primary" icon="md-add">添加子部门</Button>
-                <Button @click="addRoot" v-has="'add'" icon="md-add">添加一级部门</Button>
-                <Button @click="delAll" v-has="'delete'" icon="md-trash">批量删除</Button>
+                <Button @click="add" v-if="permTypes.length > 0" v-has="'add'" type="primary" icon="md-add">添加子部门</Button>
+                <Button @click="addRoot" v-if="permTypes.length > 0" v-has="'add'" icon="md-add">添加一级部门</Button>
+                <Button @click="delAll" v-if="permTypes.length > 0" v-has="'delete'" icon="md-trash">批量删除</Button>
                 <Button @click="getParentList" icon="md-refresh">刷新</Button>
             </Row>
             <Row type="flex" justify="start" class="code-row-bg">
@@ -46,7 +46,7 @@
                             </i-switch>
                         </FormItem>
                         <Form-item>
-                            <Button @click="submitEdit" :loading="submitLoading" v-has="'edit'" type="primary"
+                            <Button @click="submitEdit" :loading="submitLoading" v-if="permTypes.length > 0" v-has="'edit'" type="primary"
                                     icon="ios-create-outline">修改并保存
                             </Button>
                             <Button @click="handleReset">重置</Button>
@@ -97,6 +97,7 @@
                 menuModalVisible: false,
                 selectList: [],
                 selectCount: 0,
+                permTypes: [],
                 showParent: false,
                 editStatus: true,
                 addStatus: true,
@@ -334,10 +335,17 @@
                         });
                     }
                 });
-            }
+            },
+            initMeta() {
+                let permTypes = this.$route.meta.permTypes;
+                if (permTypes !== null && permTypes !== undefined) {
+                    this.permTypes = permTypes;
+                }
+            },
         },
         mounted() {
             this.init();
+            this.initMeta();
         }
     };
 </script>

@@ -7,8 +7,8 @@
             <Col>
                 <Card>
                     <Row class="operation">
-                        <Button @click="addRole" v-has="'add'" type="primary" icon="md-add">添加角色</Button>
-                        <Button @click="delAll" v-has="'delete'" icon="md-trash">批量删除</Button>
+                        <Button @click="addRole" v-if="permTypes.length > 0" v-has="'add'" type="primary" icon="md-add">添加角色</Button>
+                        <Button @click="delAll" v-if="permTypes.length > 0" v-has="'delete'" icon="md-trash">批量删除</Button>
                         <Button @click="init" icon="md-refresh">刷新</Button>
                     </Row>
                     <Row>
@@ -96,26 +96,23 @@
                     {
                         type: "selection",
                         width: 60,
-                        align: "center"
-                    },
-                    {
-                        type: "index",
-                        width: 60,
-                        align: "center"
+                        align: "center",
+                        fixed: "left",
                     },
                     {
                         title: "角色名称",
                         key: "name",
-                        sortable: true
+                        minWidth: 150,
                     },
                     {
                         title: "备注",
                         key: "description",
-                        sortable: true
+                        minWidth: 200,
                     },
                     {
                         title: "创建时间",
                         key: "createdAt",
+                        minWidth: 150,
                         sortable: true,
                         sortType: "desc",
                         render: (h, params) => {
@@ -125,6 +122,7 @@
                     {
                         title: "更新时间",
                         key: "updatedAt",
+                        minWidth: 150,
                         sortable: true,
                         sortType: "desc",
                         render: (h, params) => {
@@ -135,6 +133,7 @@
                         title: "是否设置为注册用户默认角色",
                         key: "defaultRole",
                         align: "center",
+                        minWidth: 200,
                         render: (h, params) => {
                             if (this.permTypes.includes("setDefault")) {
                                 if (params.row.defaultRole) {
@@ -187,7 +186,8 @@
                         title: "操作",
                         key: "action",
                         align: "center",
-                        width: 300,
+                        fixed: "right",
+                        width: 220,
                         render: (h, params) => {
 
                             let editBtn; let editPermBtn; let deleteBtn;
@@ -489,6 +489,11 @@
             },
             // 判断角色拥有的权限节点勾选
             hasPerm(p, rolePerms) {
+
+                if (!rolePerms) {
+                    return false;
+                }
+
                 let flag = false;
                 for (let i = 0; i < rolePerms.length; i++) {
                     if (p.id === rolePerms[i].id) {

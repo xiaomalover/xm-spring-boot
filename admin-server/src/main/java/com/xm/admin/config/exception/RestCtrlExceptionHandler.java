@@ -24,7 +24,7 @@ public class RestCtrlExceptionHandler {
             errorMsg = e.getMsg();
             log.error(e.toString());
         }
-        return new ResultUtil<>().setErrorMsg(500, errorMsg);
+        return new ResultUtil<>().error(500, errorMsg);
     }
 
     @ExceptionHandler(Exception.class)
@@ -36,6 +36,6 @@ public class RestCtrlExceptionHandler {
             errorMsg = e.getMessage();
             log.error(e.toString());
         }
-        return new ResultUtil<>().setErrorMsg(500, errorMsg);
+        return new ResultUtil<>().error(500, errorMsg);
     }
 }

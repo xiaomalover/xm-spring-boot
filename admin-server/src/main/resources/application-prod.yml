@@ -1,11 +1,21 @@
 server:
   port: 20003
   servlet:
-    context-path: /
+    context-path: /skeleton
 
-upload:
-  rootPath: D:\uploads
-  domain: http://img.xm-bt.com/
+#文件存储
+storage:
+  #当前驱动类型，localStorage本地; aliOssStorage阿里云OSS
+  type: aliOssStorage
+  local:
+    rootPath: D:\uploads
+    domain: http://img.xm-bt.com/
+  alioss:
+    accessKeyId: ewrtwet
+    accessKeySecret: wewrewtewtwet
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: weison
+    fileDir: xboot/demo1
 
 # 配置文件加密key
 jasypt:
@@ -21,8 +31,7 @@ spring:
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: com.mysql.jdbc.Driver
-    logSlowSql: true
+    driverClassName: com.mysql.cj.jdbc.Driver
     # Druid StatViewServlet配置
     druid:
       stat-view-servlet:
@@ -77,8 +86,8 @@ skeleton:
 # 忽略鉴权url
 ignored:
   urls:
-    - /skeleton/permission/getMenuList/**
-    - /skeleton/common/**
+    - /permission/getMenuList/**
+    - /captcha/**
     - /
     - /img/**
     - /css/**

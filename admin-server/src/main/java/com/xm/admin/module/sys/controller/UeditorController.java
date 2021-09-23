@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/skeleton/ueditor")
+@RequestMapping("/ueditor")
 public class UeditorController {
 
     @RequestMapping(value = "/exec")

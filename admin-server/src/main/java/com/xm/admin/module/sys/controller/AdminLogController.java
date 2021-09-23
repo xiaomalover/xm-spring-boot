@@ -1,5 +1,6 @@
 package com.xm.admin.module.sys.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2019-03-06
  */
 @RestController
-@RequestMapping("/skeleton/log")
+@RequestMapping("/log")
 @Transactional
 public class AdminLogController {
 
@@ -37,7 +38,7 @@ public class AdminLogController {
         QueryWrapper<AdminLog> adminLogQueryWrapper = new QueryWrapper<>();
         adminLogQueryWrapper.orderByDesc("created_at");
         IPage<AdminLog> log = adminLogService.page(page, adminLogQueryWrapper);
-        return new ResultUtil<>().setData(log);
+        return new ResultUtil<>().success(log);
     }
 
     @GetMapping("/search")
@@ -57,7 +58,7 @@ public class AdminLogController {
         }
 
         boolean isAsc = "asc".equals(extraVo.getOrder());
-        if (!StringUtils.isEmpty(extraVo.getSort())) {
+        if (!StrUtil.isEmpty(extraVo.getSort())) {
             adminLogQueryWrapper.orderBy(true, isAsc, StringUtils.camelToUnderline(extraVo.getSort()));
         } else {
             adminLogQueryWrapper.orderByDesc("created_at");
@@ -65,7 +66,7 @@ public class AdminLogController {
 
         IPage<AdminLog> log = adminLogService.page(page, adminLogQueryWrapper);
 
-        return new ResultUtil<>().setData(log);
+        return new ResultUtil<>().success(log);
     }
 
     @DeleteMapping("/delByIds/{ids}")
@@ -74,7 +75,7 @@ public class AdminLogController {
         for (String id : ids) {
             adminLogService.removeById(id);
         }
-        return new ResultUtil<>().setSuccessMsg("删除成功");
+        return new ResultUtil<>().success("删除成功");
     }
 
     @DeleteMapping("/delAll")
@@ -82,6 +83,6 @@ public class AdminLogController {
         QueryWrapper<AdminLog> queryWrapper = new QueryWrapper<>();
         queryWrapper.gt("id", 0);
         adminLogService.remove(queryWrapper);
-        return new ResultUtil<>().setSuccessMsg("删除成功");
+        return new ResultUtil<>().success("删除成功");
     }
 }

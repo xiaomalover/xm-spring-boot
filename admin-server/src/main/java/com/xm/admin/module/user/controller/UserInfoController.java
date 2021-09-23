@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-03-02
  */
 @RestController
-@RequestMapping("/skeleton/userInfo")
+@RequestMapping("/userInfo")
 public class UserInfoController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class UserInfoController {
     ) {
         IPage<UserInfo> page = new CommonPageUtil<UserInfo>().initIPage(extraVo);
         IPage<UserInfo> userInfoList = userInfoService.getUserList(page, userInfo, extraVo);
-        return new ResultUtil<IPage<UserInfo>>().setData(userInfoList);
+        return new ResultUtil<IPage<UserInfo>>().success(userInfoList);
     }
 
     @PostMapping("/disable/{id}")
@@ -47,9 +47,9 @@ public class UserInfoController {
         UserInfo userInfo = userInfoService.getById(id);
         userInfo.setStatus(CommonStatus.STATUS_DISABLED.getStatus());
         if (userInfoService.updateById(userInfo)) {
-            return new ResultUtil<>().setSuccessMsg("禁用用户成功");
+            return new ResultUtil<>().success("禁用用户成功");
         } else {
-            return new ResultUtil<>().setErrorMsg("禁用用户失败");
+            return new ResultUtil<>().error("禁用用户失败");
         }
     }
 
@@ -58,9 +58,9 @@ public class UserInfoController {
         UserInfo userInfo = userInfoService.getById(id);
         userInfo.setStatus(CommonStatus.STATUS_ENABLED.getStatus());
         if (userInfoService.updateById(userInfo)) {
-            return new ResultUtil<>().setSuccessMsg("启用用户成功");
+            return new ResultUtil<>().success("启用用户成功");
         } else {
-            return new ResultUtil<>().setErrorMsg("启用用户失败");
+            return new ResultUtil<>().error("启用用户失败");
         }
     }
 
@@ -71,7 +71,7 @@ public class UserInfoController {
             userInfo.setStatus(CommonStatus.STATUS_DELETED.getStatus());
             userInfoService.updateById(userInfo);
         }
-        return new ResultUtil<>().setSuccessMsg("批量通过id删除数据成功");
+        return new ResultUtil<>().success("批量通过id删除数据成功");
     }
 
     @PostMapping("/add")
@@ -88,13 +88,13 @@ public class UserInfoController {
         Integer exist = userInfoMapper.selectCount(userInfoQueryWrapper);
 
         if (exist > 0) {
-            return new ResultUtil<>().setErrorMsg("用户名或手机号已存在");
+            return new ResultUtil<>().error("用户名或手机号已存在");
         }
 
         if (userInfoService.updateById(userInfo)) {
-            return new ResultUtil<>().setSuccessMsg("编辑用户成功");
+            return new ResultUtil<>().success("编辑用户成功");
         } else {
-            return new ResultUtil<>().setErrorMsg("编辑用户失败");
+            return new ResultUtil<>().error("编辑用户失败");
         }
     }
 

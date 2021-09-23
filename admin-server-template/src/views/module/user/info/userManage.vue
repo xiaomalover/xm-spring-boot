@@ -175,7 +175,6 @@
                 dropDownContent: "展开",
                 dropDownIcon: "ios-arrow-down",
                 selectCount: 0,
-                imageDomain: "",
                 selectList: [],
                 category: [],
                 selectDep: [],
@@ -240,18 +239,21 @@
                         key: "username",
                         sortable: true,
                         align: "center",
+                        minWidth: 150,
                     },
                     {
                         title: "手机号",
                         key: "mobile",
                         sortable: true,
                         align: "center",
+                        minWidth: 150,
                     },
                     {
                         title: "邮箱",
                         key: "email",
                         sortable: true,
                         align: "center",
+                        minWidth: 150,
                         render: (h, params) => {
                             return h("div", params.row.email ? params.row.email : '-');
                         },
@@ -260,7 +262,7 @@
                         title: "状态",
                         key: "status",
                         align: "center",
-                        width: 140,
+                        minWidth: 150,
                         render: (h, params) => {
                             let re = "";
                             if (params.row.status === 1) {
@@ -315,6 +317,7 @@
                         key: "createdAt",
                         sortable: true,
                         sortType: "desc",
+                        minWidth: 150,
                         render: (h, params) => {
                             return h("div", moment(params.row.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
                         }
@@ -674,6 +677,7 @@
                     key: "action",
                     align: "center",
                     fixed: "right",
+                    minWidth: 250,
                     render: (h, params) => {
                         let editBtn; let disableBtn; let enableBtn; let deleteBtn; let updatePasswordBtn;
 

@@ -12,5 +12,5 @@ public class Captcha implements Serializable {
 
     private String captchaId;
 
-    private String code;
+    private String imgBase64;
 }

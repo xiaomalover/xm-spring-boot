@@ -29,7 +29,7 @@ import java.util.Set;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
-@RequestMapping("/skeleton/article/category")
+@RequestMapping("/article/category")
 @CacheConfig(cacheNames = "articleCategory")
 public class ArticleCategoryController {
 
@@ -60,7 +60,7 @@ public class ArticleCategoryController {
                 item.setParentTitle("一级分类");
             }
         });
-        return new ResultUtil<List<ArticleCategory>>().setData(list);
+        return new ResultUtil<List<ArticleCategory>>().success(list);
     }
 
     @PostMapping("/add")
@@ -86,7 +86,7 @@ public class ArticleCategoryController {
         }
         articleCategoryService.updateById(articleCategory);
 
-        return new ResultUtil<ArticleCategory>().setData(articleCategory);
+        return new ResultUtil<ArticleCategory>().success(articleCategory);
     }
 
     @PostMapping("/edit")
@@ -105,7 +105,7 @@ public class ArticleCategoryController {
         if (!ObjectUtils.isEmpty(keys)) {
             redisTemplate.delete(keys);
         }
-        return new ResultUtil<ArticleCategory>().setData(articleCategory);
+        return new ResultUtil<ArticleCategory>().success(articleCategory);
     }
 
     @DeleteMapping("/delByIds/{ids}")
@@ -114,7 +114,7 @@ public class ArticleCategoryController {
         for (String id : ids) {
             ArticleInfo articleInfo = articleInfoService.getOne(new QueryWrapper<ArticleInfo>().eq("category_id", id));
             if (!ObjectUtils.isEmpty(articleInfo)) {
-                return new ResultUtil<>().setErrorMsg("删除失败，包含正被文章使用关联的分类");
+                return new ResultUtil<>().error("删除失败，包含正被文章使用关联的分类");
             }
         }
         for (String id : ids) {
@@ -125,6 +125,6 @@ public class ArticleCategoryController {
         if (!ObjectUtils.isEmpty(keys)) {
             redisTemplate.delete(keys);
         }
-        return new ResultUtil<>().setSuccessMsg("批量通过id删除数据成功");
+        return new ResultUtil<>().success("批量通过id删除数据成功");
     }
 }

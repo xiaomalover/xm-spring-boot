@@ -32,7 +32,7 @@ import java.util.Set;
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Slf4j
 @RestController
-@RequestMapping("/skeleton/permission")
+@RequestMapping("/permission")
 @CacheConfig(cacheNames = "permission")
 @Transactional
 public class PermissionController {
@@ -99,7 +99,7 @@ public class PermissionController {
             p.setChildren(secondMenu);
         }
 
-        return new ResultUtil<List<Permission>>().setData(menuList);
+        return new ResultUtil<List<Permission>>().success(menuList);
     }
 
     @GetMapping("/getAllList")
@@ -118,7 +118,7 @@ public class PermissionController {
                 p2.setChildren(children2);
             }
         }
-        return new ResultUtil<List<Permission>>().setData(list);
+        return new ResultUtil<List<Permission>>().success(list);
     }
 
     @PostMapping("/add")
@@ -129,7 +129,7 @@ public class PermissionController {
         if (CommonConstant.PERMISSION_OPERATION.equals(permission.getType())) {
             List<Permission> list = permissionService.list(new QueryWrapper<Permission>().eq("title", permission.getTitle()));
             if (list != null && list.size() > 0) {
-                return new ResultUtil<Permission>().setErrorMsg("名称已存在");
+                return new ResultUtil<Permission>().error("名称已存在");
             }
         }
         permissionService.save(permission);
@@ -137,7 +137,7 @@ public class PermissionController {
         mySecurityMetadataSource.loadResourceDefine();
         //手动删除缓存
         redisTemplate.delete("permission::allList");
-        return new ResultUtil<Permission>().setData(permission);
+        return new ResultUtil<Permission>().success(permission);
     }
 
     @PostMapping("/edit")
@@ -150,7 +150,7 @@ public class PermissionController {
             if (!p.getTitle().equals(permission.getTitle())) {
                 List<Permission> list = permissionService.list(new QueryWrapper<Permission>().eq("title", permission.getTitle()));
                 if (list != null && list.size() > 0) {
-                    return new ResultUtil<Permission>().setErrorMsg("名称已存在");
+                    return new ResultUtil<Permission>().error("名称已存在");
                 }
             }
         }
@@ -171,7 +171,7 @@ public class PermissionController {
             redisTemplate.delete(keysUserMenu);
         }
         redisTemplate.delete("permission::allList");
-        return new ResultUtil<Permission>().setData(permission);
+        return new ResultUtil<Permission>().success(permission);
     }
 
     @DeleteMapping("/delByIds/{ids}")
@@ -181,7 +181,7 @@ public class PermissionController {
         for (String id : ids) {
             List<RolePermission> list = rolePermissionService.list(new QueryWrapper<RolePermission>().eq("permission_id", id));
             if (list != null && list.size() > 0) {
-                return new ResultUtil<>().setErrorMsg("删除失败，包含正被角色使用关联的菜单或权限");
+                return new ResultUtil<>().error("删除失败，包含正被角色使用关联的菜单或权限");
             }
         }
         for (String id : ids) {
@@ -191,7 +191,7 @@ public class PermissionController {
         mySecurityMetadataSource.loadResourceDefine();
         //手动删除缓存
         redisTemplate.delete("permission::allList");
-        return new ResultUtil<>().setSuccessMsg("批量通过id删除数据成功");
+        return new ResultUtil<>().success("批量通过id删除数据成功");
     }
 
     /**

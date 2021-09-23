@@ -20,17 +20,12 @@ public class RestErrorFilter implements ErrorController {
     public Object handleError(HttpServletResponse response) {
         int code = response.getStatus();
         if (code == HttpStatus.NOT_FOUND.value()) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase());
+            return new ResultUtil<>().error(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase());
         } else if (code == HttpStatus.METHOD_NOT_ALLOWED.value()) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.METHOD_NOT_ALLOWED.value(), HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase());
+            return new ResultUtil<>().error(HttpStatus.METHOD_NOT_ALLOWED.value(), HttpStatus.METHOD_NOT_ALLOWED.getReasonPhrase());
         } else {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
         }
-    }
-
-    @Override
-    public String getErrorPath() {
-        return ERROR_PATH;
     }
 
 }

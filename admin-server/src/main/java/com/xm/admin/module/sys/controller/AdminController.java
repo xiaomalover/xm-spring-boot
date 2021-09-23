@@ -9,6 +9,8 @@ import com.xm.admin.common.annotation.SystemLog;
 import com.xm.admin.common.constant.CommonConstant;
 import com.xm.admin.common.handler.PermissionEditor;
 import com.xm.admin.common.handler.RolesEditor;
+import com.xm.admin.module.storage.service.IStorage;
+import com.xm.admin.module.storage.service.StorageFactory;
 import com.xm.admin.module.sys.entity.*;
 import com.xm.admin.module.sys.service.IAdminService;
 import com.xm.admin.module.sys.service.IDepartmentService;
@@ -44,34 +46,45 @@ import java.util.List;
  * @author xiaomalover <xiaomalover@gmail.com>
  * @since 2019-03-06
  */
-@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Slf4j
 @RestController
-@RequestMapping("/skeleton/user")
+@RequestMapping("/user")
 @CacheConfig(cacheNames = "admin")
 @Transactional
 public class AdminController {
 
-    @Autowired
-    private IAdminService adminService;
+    private final IAdminService adminService;
 
-    @Autowired
-    private IRoleService roleService;
+    private final IRoleService roleService;
 
-    @Autowired
-    private IDepartmentService departmentService;
+    private final IDepartmentService departmentService;
 
-    @Autowired
-    private IUserRoleService iUserRoleService;
+    private final IUserRoleService iUserRoleService;
 
-    @Autowired
-    private IUserRoleService userRoleService;
+    private final IUserRoleService userRoleService;
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
-    @Value("${upload.domain}")
-    private String imageDomain;
+    private final IStorage storage;
+
+    public AdminController(
+            IAdminService adminService,
+            IRoleService roleService,
+            IDepartmentService departmentService,
+            IUserRoleService iUserRoleService,
+            IUserRoleService userRoleService,
+            StringRedisTemplate redisTemplate,
+            StorageFactory storageFactory,
+            @Value("${storage.type}") String storageType
+    ) {
+        this.adminService = adminService;
+        this.roleService = roleService;
+        this.departmentService = departmentService;
+        this.iUserRoleService = iUserRoleService;
+        this.userRoleService = userRoleService;
+        this.redisTemplate = redisTemplate;
+        this.storage = storageFactory.getStorage(storageType + "Impl");
+    }
 
     @PostMapping("/regist")
     public Result<Object> regist(@ModelAttribute Admin u,
@@ -81,22 +94,22 @@ public class AdminController {
 
         if (StrUtil.isBlank(verify) || StrUtil.isBlank(u.getUsername())
                 || StrUtil.isBlank(u.getPassword())) {
-            return new ResultUtil<>().setErrorMsg("缺少必需表单字段");
+            return new ResultUtil<>().error("缺少必需表单字段");
         }
 
         //验证码
         String code = redisTemplate.opsForValue().get(captchaId);
         if (StrUtil.isBlank(code)) {
-            return new ResultUtil<>().setErrorMsg("验证码已过期，请重新获取");
+            return new ResultUtil<>().error("验证码已过期，请重新获取");
         }
 
         if (!verify.toLowerCase().equals(code.toLowerCase())) {
             log.error("注册失败，验证码错误：code:" + verify + ",redisCode:" + code.toLowerCase());
-            return new ResultUtil<>().setErrorMsg("验证码输入错误");
+            return new ResultUtil<>().error("验证码输入错误");
         }
 
         if (!ObjectUtils.isEmpty(adminService.findUserDetailInfo(u.getUsername()))) {
-            return new ResultUtil<>().setErrorMsg("该用户名已被注册");
+            return new ResultUtil<>().error("该用户名已被注册");
         }
         //删除缓存
         redisTemplate.delete("admin::" + u.getUsername());
@@ -106,7 +119,7 @@ public class AdminController {
         u.setType(CommonConstant.USER_TYPE_NORMAL);
         Boolean suc = adminService.save(u);
         if (!suc) {
-            return new ResultUtil<>().setErrorMsg("注册失败");
+            return new ResultUtil<>().error("注册失败");
         }
         // 默认角色
         List<Role> roleList = roleService.list(new QueryWrapper<Role>().eq("default_role", true));
@@ -119,7 +132,7 @@ public class AdminController {
             }
         }
 
-        return new ResultUtil<>().setData(u);
+        return new ResultUtil<>().success(u);
     }
 
     @GetMapping("/info")
@@ -129,7 +142,7 @@ public class AdminController {
         Admin u = adminService.findUserDetailInfo(user.getUsername());
         // 清除持久上下文环境 避免后面语句导致持久化
         u.setPassword(null);
-        return new ResultUtil<Admin>().setData(u);
+        return new ResultUtil<Admin>().success(u);
     }
 
     @PostMapping("/unlock")
@@ -138,9 +151,9 @@ public class AdminController {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Admin u = adminService.findUserDetailInfo(user.getUsername());
         if (!new BCryptPasswordEncoder().matches(password, u.getPassword())) {
-            return new ResultUtil<>().setErrorMsg("密码不正确");
+            return new ResultUtil<>().error("密码不正确");
         }
-        return new ResultUtil<>().setData(null);
+        return new ResultUtil<>().success(null);
     }
 
     @PostMapping("/edit")
@@ -150,12 +163,12 @@ public class AdminController {
         Admin old = adminService.getById(u.getId());
         u.setUsername(old.getUsername());
         u.setPassword(old.getPassword());
-        u.setAvatar(u.getAvatar().replace(this.imageDomain, ""));
+        u.setAvatar(u.getAvatar());
         boolean suc = adminService.updateById(u);
         if (!suc) {
-            return new ResultUtil<>().setErrorMsg("修改失败");
+            return new ResultUtil<>().error("修改失败");
         }
-        return new ResultUtil<>().setSuccessMsg("修改成功");
+        return new ResultUtil<>().success("修改成功");
     }
 
     /**
@@ -175,7 +188,7 @@ public class AdminController {
             redisTemplate.delete("admin::" + old.getUsername());
             //判断新用户名是否存在
             if (!ObjectUtils.isEmpty(adminService.findUserDetailInfo(u.getUsername()))) {
-                return new ResultUtil<>().setErrorMsg("该用户名已被存在");
+                return new ResultUtil<>().error("该用户名已被存在");
             }
             //删除缓存
             redisTemplate.delete("admin::" + u.getUsername());
@@ -184,7 +197,7 @@ public class AdminController {
         u.setPassword(old.getPassword());
         boolean sec = adminService.updateById(u);
         if (!sec) {
-            return new ResultUtil<>().setErrorMsg("修改失败");
+            return new ResultUtil<>().error("修改失败");
         }
         //删除该用户角色
 
@@ -200,7 +213,7 @@ public class AdminController {
         }
         //手动删除缓存
         redisTemplate.delete("adminRole::" + u.getId());
-        return new ResultUtil<>().setSuccessMsg("修改成功");
+        return new ResultUtil<>().success("修改成功");
     }
 
     /**
@@ -215,20 +228,20 @@ public class AdminController {
         Admin old = adminService.getById(id);
 
         if (!new BCryptPasswordEncoder().matches(password, old.getPassword())) {
-            return new ResultUtil<>().setErrorMsg("旧密码不正确");
+            return new ResultUtil<>().error("旧密码不正确");
         }
 
         String newEncryptPass = new BCryptPasswordEncoder().encode(newPass);
         old.setPassword(newEncryptPass);
         boolean sec = adminService.updateById(old);
         if (!sec) {
-            return new ResultUtil<>().setErrorMsg("修改失败");
+            return new ResultUtil<>().error("修改失败");
         }
 
         //手动更新缓存
         redisTemplate.delete("admin::" + old.getUsername());
 
-        return new ResultUtil<>().setData(old);
+        return new ResultUtil<>().success(old);
     }
 
     @GetMapping("/getByCondition")
@@ -275,7 +288,7 @@ public class AdminController {
         }
 
         boolean isAsc = "asc".equals(extraVo.getOrder());
-        if (!StringUtils.isEmpty(extraVo.getSort())) {
+        if (!StrUtil.isEmpty(extraVo.getSort())) {
             adminQueryWrapper.orderBy(true, isAsc, StringUtils.camelToUnderline(extraVo.getSort()));
         } else {
             adminQueryWrapper.orderByDesc("created_at");
@@ -298,7 +311,7 @@ public class AdminController {
             newAdmins.add(u);
         }
         page.setRecords(newAdmins);
-        return new ResultUtil<IPage<Admin>>().setData(page);
+        return new ResultUtil<IPage<Admin>>().success(page);
     }
 
     @PostMapping("/admin/add")
@@ -306,11 +319,11 @@ public class AdminController {
                               @RequestParam(required = false) String[] roles) {
 
         if (StrUtil.isBlank(u.getUsername()) || StrUtil.isBlank(u.getPassword())) {
-            return new ResultUtil<>().setErrorMsg("缺少必需表单字段");
+            return new ResultUtil<>().error("缺少必需表单字段");
         }
 
         if (!ObjectUtils.isEmpty(adminService.findUserDetailInfo(u.getUsername()))) {
-            return new ResultUtil<>().setErrorMsg("该用户名已被注册");
+            return new ResultUtil<>().error("该用户名已被注册");
         }
         //删除缓存
         redisTemplate.delete("admin::" + u.getUsername());
@@ -319,7 +332,7 @@ public class AdminController {
         u.setPassword(encryptPass);
         boolean sec = adminService.save(u);
         if (!sec) {
-            return new ResultUtil<>().setErrorMsg("添加失败");
+            return new ResultUtil<>().error("添加失败");
         }
         if (!ObjectUtils.isEmpty(roles)) {
             //添加角色
@@ -331,7 +344,7 @@ public class AdminController {
             }
         }
 
-        return new ResultUtil<>().setData(u);
+        return new ResultUtil<>().success(u);
     }
 
     @PostMapping("/admin/disable/{userId}")
@@ -339,13 +352,13 @@ public class AdminController {
 
         Admin user = adminService.getById(userId);
         if (user == null) {
-            return new ResultUtil<>().setErrorMsg("通过userId获取用户失败");
+            return new ResultUtil<>().error("通过userId获取用户失败");
         }
         user.setStatus(CommonStatus.STATUS_DISABLED.getStatus());
         adminService.updateById(user);
         //手动更新缓存
         redisTemplate.delete("admin::" + user.getUsername());
-        return new ResultUtil<>().setData(null);
+        return new ResultUtil<>().success(null);
     }
 
     @PostMapping("/admin/enable/{userId}")
@@ -353,13 +366,13 @@ public class AdminController {
 
         Admin user = adminService.getById(userId);
         if (user == null) {
-            return new ResultUtil<>().setErrorMsg("通过userId获取用户失败");
+            return new ResultUtil<>().error("通过userId获取用户失败");
         }
         user.setStatus(CommonStatus.STATUS_ENABLED.getStatus());
         adminService.updateById(user);
         //手动更新缓存
         redisTemplate.delete("admin::" + user.getUsername());
-        return new ResultUtil<>().setData(null);
+        return new ResultUtil<>().success(null);
     }
 
     @DeleteMapping("/delByIds/{ids}")
@@ -370,7 +383,7 @@ public class AdminController {
             //删除关联角色
             userRoleService.remove((new QueryWrapper<AdminRole>().eq("user_id", id)));
         }
-        return new ResultUtil<>().setSuccessMsg("批量通过id删除数据成功");
+        return new ResultUtil<>().success("批量通过id删除数据成功");
     }
 
     @PostMapping("/admin/updatePassword")
@@ -383,13 +396,13 @@ public class AdminController {
         old.setPassword(newEncryptPass);
         boolean sec = adminService.updateById(old);
         if (!sec) {
-            return new ResultUtil<>().setErrorMsg("修改失败");
+            return new ResultUtil<>().error("修改失败");
         }
 
         //手动更新缓存
         redisTemplate.delete("admin::" + old.getUsername());
 
-        return new ResultUtil<>().setData(old);
+        return new ResultUtil<>().success(old);
     }
 
     /**

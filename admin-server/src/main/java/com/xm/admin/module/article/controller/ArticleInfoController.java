@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2019-04-05
  */
 @RestController
-@RequestMapping("/skeleton/article")
+@RequestMapping("/article")
 public class ArticleInfoController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class ArticleInfoController {
     ) {
         IPage<ArticleInfo> page = new CommonPageUtil<ArticleInfo>().initIPage(extraVo);
         IPage<ArticleInfo> articleInfoList = articleInfoService.getArticleList(page, articleInfo, extraVo);
-        return new ResultUtil<IPage<ArticleInfo>>().setData(articleInfoList);
+        return new ResultUtil<IPage<ArticleInfo>>().success(articleInfoList);
     }
 
     @GetMapping("/detail/{id}")
@@ -51,7 +51,7 @@ public class ArticleInfoController {
                 articleInfo.setCategoryTitle(articleCategory.getTitle());
             }
         }
-        return new ResultUtil<>().setData(articleInfo);
+        return new ResultUtil<>().success(articleInfo);
     }
 
     @PostMapping("/disable/{id}")
@@ -59,9 +59,9 @@ public class ArticleInfoController {
         ArticleInfo articleInfo = articleInfoService.getById(id);
         articleInfo.setStatus(CommonStatus.STATUS_DISABLED.getStatus());
         if (articleInfoService.updateById(articleInfo)) {
-            return new ResultUtil<>().setSuccessMsg("禁用文章成功");
+            return new ResultUtil<>().success("禁用文章成功");
         } else {
-            return new ResultUtil<>().setErrorMsg("禁用文章失败");
+            return new ResultUtil<>().error("禁用文章失败");
         }
     }
 
@@ -70,9 +70,9 @@ public class ArticleInfoController {
         ArticleInfo articleInfo = articleInfoService.getById(id);
         articleInfo.setStatus(CommonStatus.STATUS_ENABLED.getStatus());
         if (articleInfoService.updateById(articleInfo)) {
-            return new ResultUtil<>().setSuccessMsg("启用文章成功");
+            return new ResultUtil<>().success("启用文章成功");
         } else {
-            return new ResultUtil<>().setErrorMsg("启用文章失败");
+            return new ResultUtil<>().error("启用文章失败");
         }
     }
 
@@ -81,24 +81,24 @@ public class ArticleInfoController {
         for (String id : ids) {
             articleInfoService.removeById(id);
         }
-        return new ResultUtil<>().setSuccessMsg("批量通过id删除数据成功");
+        return new ResultUtil<>().success("批量通过id删除数据成功");
     }
 
     @PostMapping("/add")
     public Result add(@ModelAttribute ArticleInfo articleInfo) {
         if (articleInfoService.save(articleInfo)) {
-            return new ResultUtil<>().setSuccessMsg("添加文章成功");
+            return new ResultUtil<>().success("添加文章成功");
         } else {
-            return new ResultUtil<>().setErrorMsg("添加文章失败");
+            return new ResultUtil<>().error("添加文章失败");
         }
     }
 
     @PostMapping("/edit")
     public Result edit(@ModelAttribute ArticleInfo articleInfo) {
         if (articleInfoService.updateById(articleInfo)) {
-            return new ResultUtil<>().setSuccessMsg("编辑文章成功");
+            return new ResultUtil<>().success("编辑文章成功");
         } else {
-            return new ResultUtil<>().setErrorMsg("编辑文章失败");
+            return new ResultUtil<>().error("编辑文章失败");
         }
     }
 }

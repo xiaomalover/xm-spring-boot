@@ -95,7 +95,6 @@
         enableArticle,
         getArticleListData,
         loadArticleCategory,
-        getUploadDomain,
     } from "@/api/index";
     import moment from 'moment';
 
@@ -109,7 +108,6 @@
                 dropDownContent: "展开",
                 dropDownIcon: "ios-arrow-down",
                 selectCount: 0,
-                imageDomain: "",
                 selectList: [],
                 category: [],
                 selectDep: [],
@@ -131,6 +129,7 @@
                         title: "缩略图",
                         key: "thumb",
                         align: "center",
+                        minWidth: 150,
                         render: (h, params) => {
                             if (params.row.thumb) {
                                 return h('div', {
@@ -144,7 +143,7 @@
                                             size: 'small'
                                         },
                                         attrs: {
-                                            src: this.imageDomain + params.row.thumb,
+                                            src: params.row.thumb,
                                             style: 'width: 90px;height: 90px;border-radius: 2px;'
                                         },
                                         style: "text-align:center;margin:3px auto;",
@@ -160,6 +159,7 @@
                         key: "title",
                         sortable: true,
                         align: "center",
+                        minWidth: 150,
                     },
                     {
                         title: "简介",
@@ -167,11 +167,13 @@
                         sortable: true,
                         align: "center",
                         type: "html",
+                        minWidth: 250,
                     },
                     {
                         title: "分类",
                         key: "categoryTitle",
                         align: "center",
+                        minWidth: 150,
                         render: (h, params) => {
                             if (params.row.categoryTitle === "") {
                                 return h('div', '-');
@@ -185,12 +187,14 @@
                         key: "author",
                         sortable: true,
                         //width: 590,
+                        minWidth: 150,
                         align: "center",
                     },
                     {
                         title: "是否展示",
                         key: "status",
                         align: "center",
+                        minWidth: 150,
                         render: (h, params) => {
                             let re = "";
                             if (params.row.status === 0) {
@@ -224,6 +228,7 @@
                         key: "createdAt",
                         sortable: true,
                         sortType: "desc",
+                        minWidth: 150,
                         render: (h, params) => {
                             return h("div", moment(params.row.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
                         }
@@ -241,7 +246,6 @@
                 };
                 this.changeTableColumns();
                 this.$refs.ueditor = {};
-                this.getImageBase();
                 this.initMeta();
                 this.initCategoryData();
                 this.getArticleList();
@@ -588,22 +592,6 @@
                 }
             },
 
-            getImageBase() {
-                if(Cookies.get("imageDomain")) {
-                    this.imageDomain = Cookies.get("imageDomain");
-                } else {
-                    // 多条件搜索配置列表
-                    this.loading = true;
-                    getUploadDomain().then(res => {
-                        this.loading = false;
-                        if (res.success === true) {
-                            this.imageDomain = res.result;
-                            Cookies.set("imageDomain", this.imageDomain);
-                        }
-                    });
-                }
-            },
-
             changeTableColumns() {
                 this.columns = this.getTableColumns();
             },
@@ -625,6 +613,7 @@
                     key: "action",
                     align: "center",
                     fixed: "right",
+                    minWidth: 200,
                     render: (h, params) => {
                         let editBtn; let disableBtn; let enableBtn; let deleteBtn;
 

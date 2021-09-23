@@ -21,20 +21,21 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <mybatis-plus.version>3.0.7.1</mybatis-plus.version>
-        <beetl.version>2.9.8</beetl.version>
-        <mysql-connect.version>8.0.16</mysql-connect.version>
-        <druid.version>1.1.10</druid.version>
-        <spring-boot-starter-data-redis.version>2.2.5.RELEASE</spring-boot-starter-data-redis.version>
-        <fastjson.version>1.2.54</fastjson.version>
-        <hutool.version>4.4.0</hutool.version>
-        <lombok.version>1.16.20</lombok.version>
+        <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
+        <beetl.version>3.4.0.RELEASE</beetl.version>
+        <mysql-connect.version>8.0.26</mysql-connect.version>
+        <druid.version>1.2.5</druid.version>
+        <spring-boot-starter-data-redis.version>2.5.3</spring-boot-starter-data-redis.version>
+        <fastjson.version>1.2.76</fastjson.version>
+        <hutool.version>5.7.6</hutool.version>
+        <lombok.version>1.18.20</lombok.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.4.RELEASE</version>
+        <version>2.5.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -106,7 +107,7 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-generator</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <version>${mybatis-plus-generator.version}</version>
             </dependency>
 
             <!-- beetl 模板引擎 -->

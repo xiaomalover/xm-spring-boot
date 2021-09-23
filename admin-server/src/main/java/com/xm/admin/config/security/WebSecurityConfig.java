@@ -68,9 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         registry.and()
                 //表单登录方式
                 .formLogin()
-                .loginPage("/skeleton/common/needLogin")
+                .loginPage("/common/needLogin")
                 //登录请求url
-                .loginProcessingUrl("/skeleton/login")
+                .loginProcessingUrl("/login")
                 .permitAll()
                 //成功处理类
                 .successHandler(successHandler)

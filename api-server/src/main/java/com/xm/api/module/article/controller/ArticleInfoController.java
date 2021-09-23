@@ -43,7 +43,7 @@ public class ArticleInfoController {
         // lambda表达式
         list.forEach(item -> {
         });
-        return new ResultUtil<List<ArticleInfo>>().setData(list);
+        return new ResultUtil<List<ArticleInfo>>().success(list);
     }
 
     @GetMapping("/detail/{id}")
@@ -55,6 +55,6 @@ public class ArticleInfoController {
                 articleInfo.setCategoryTitle(articleCategory.getTitle());
             }
         }
-        return new ResultUtil<>().setData(articleInfo);
+        return new ResultUtil<>().success(articleInfo);
     }
 }

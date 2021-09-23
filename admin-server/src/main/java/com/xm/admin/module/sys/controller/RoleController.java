@@ -35,7 +35,7 @@ import java.util.Set;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
-@RequestMapping("/skeleton/role")
+@RequestMapping("/role")
 public class RoleController {
 
     @Autowired
@@ -57,7 +57,7 @@ public class RoleController {
     public Result<Object> roleGetAll() {
 
         List<Role> list = roleService.list();
-        return new ResultUtil<>().setData(list);
+        return new ResultUtil<>().success(list);
     }
 
     @GetMapping("/getAllByPage")
@@ -71,7 +71,7 @@ public class RoleController {
             List<Permission> permissions = iPermissionService.findByRoleId(role.getId());
             role.setPermissions(permissions);
         }
-        return new ResultUtil<IPage<Role>>().setData(roles);
+        return new ResultUtil<IPage<Role>>().success(roles);
     }
 
     @PostMapping("/setDefault")
@@ -79,11 +79,11 @@ public class RoleController {
 
         Role role = roleService.getById(id);
         if (role == null) {
-            return new ResultUtil<>().setErrorMsg("角色不存在");
+            return new ResultUtil<>().error("角色不存在");
         }
         role.setDefaultRole(isDefault);
         roleService.updateById(role);
-        return new ResultUtil<>().setSuccessMsg("设置成功");
+        return new ResultUtil<>().success("设置成功");
     }
 
     @PostMapping("/editRolePerm/{roleId}")
@@ -115,13 +115,13 @@ public class RoleController {
         if (!ObjectUtils.isEmpty(keysUserMenu)) {
             redisTemplate.delete(keysUserMenu);
         }
-        return new ResultUtil<>().setData(null);
+        return new ResultUtil<>().success(null);
     }
 
     @PostMapping("/save")
     public Result<Role> save(@ModelAttribute Role role) {
         roleService.save(role);
-        return new ResultUtil<Role>().setData(role);
+        return new ResultUtil<Role>().success(role);
     }
 
     @PostMapping("/edit")
@@ -136,7 +136,7 @@ public class RoleController {
         if (!ObjectUtils.isEmpty(keysUserRole)) {
             redisTemplate.delete(keysUserRole);
         }
-        return new ResultUtil<Role>().setData(entity);
+        return new ResultUtil<Role>().success(entity);
     }
 
     @DeleteMapping("/delAllByIds/{ids}")
@@ -145,7 +145,7 @@ public class RoleController {
         for (String id : ids) {
             List<AdminRole> list = userRoleService.list(new QueryWrapper<AdminRole>().eq("role_id", id));
             if (list != null && list.size() > 0) {
-                return new ResultUtil<>().setErrorMsg("删除失败，包含正被用户使用关联的角色");
+                return new ResultUtil<>().error("删除失败，包含正被用户使用关联的角色");
             }
         }
         for (String id : ids) {
@@ -153,7 +153,7 @@ public class RoleController {
             //删除关联权限
             rolePermissionService.remove(new QueryWrapper<RolePermission>().eq("role_id", id));
         }
-        return new ResultUtil<>().setSuccessMsg("批量通过id删除数据成功");
+        return new ResultUtil<>().success("批量通过id删除数据成功");
     }
 
     /**

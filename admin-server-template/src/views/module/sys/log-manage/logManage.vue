@@ -22,8 +22,8 @@
                         </Form-item>
                     </Form>
                     <Row class="operation">
-                        <Button @click="clearAll" type="error" icon="md-trash" v-has="'undefined'">清空全部</Button>
-                        <Button @click="delAll" icon="md-trash" v-has="'delete'">批量删除</Button>
+                        <Button @click="clearAll" type="error" icon="md-trash" v-if="permTypes.length > 0" v-has="'delete'">清空全部</Button>
+                        <Button @click="delAll" icon="md-trash" v-if="permTypes.length > 0" v-has="'delete'">批量删除</Button>
                         <Button @click="getLogList" icon="md-refresh">刷新</Button>
                     </Row>
                     <Row>
@@ -76,17 +76,10 @@
                         fixed: "left"
                     },
                     {
-                        type: "index",
-                        width: 60,
-                        align: "center",
-                        fixed: "left"
-                    },
-                    {
                         title: "操作名称",
                         key: "name",
                         width: 110,
                         sortable: true,
-                        fixed: "left"
                     },
                     {
                         title: "请求类型",
@@ -235,8 +228,10 @@
         },
         methods: {
             init() {
+                this.accessToken = {
+                    accessToken: this.getStore("accessToken")
+                };
                 this.getLogList();
-                this.initMeta();
             },
             changePage(v) {
                 this.pageNumber = v;
@@ -381,6 +376,7 @@
         },
         mounted() {
             this.init();
+            this.initMeta();
         }
     };
 </script>

@@ -97,7 +97,6 @@
     import {
         userInfoEdit,
         uploadCommon,
-        getUploadDomain
     } from "@/api/index";
     import Cookies from "js-cookie";
     import { VueCropper }  from 'vue-cropper';
@@ -145,7 +144,6 @@
                     fixedBox: true
                 },
                 downImg: '#',
-                imageDomain: "",
             };
         },
 
@@ -170,16 +168,7 @@
                 if (this.userForm.avatar === "") {
                     this.userForm.avatar = require('../../../../assets/avatar.png');
                 } else {
-                    this.getImageBase();
-                    if (userInfo.avatar.indexOf(this.imageDomain) !== -1) {
-                        this.userForm.avatar = userInfo.avatar;
-                    } else {
-                        if (userInfo.avatar.indexOf("avatar") === -1) {
-                            this.userForm.avatar = this.imageDomain + "/" + userInfo.avatar;
-                        } else {
-                            this.userForm.avatar = userInfo.avatar;
-                        }
-                    }
+                    this.userForm.avatar = userInfo.avatar;
                 }
                 this.initPhone = userInfo.mobile;
                 this.initEmail = userInfo.email;
@@ -191,21 +180,6 @@
                     this.userForm.typeTxt = "普通用户";
                 } else if (this.userForm.type === 1) {
                     this.userForm.typeTxt = "管理员";
-                }
-            },
-            getImageBase() {
-                if(Cookies.get("imageDomain")) {
-                    this.imageDomain = Cookies.get("imageDomain");
-                } else {
-                    // 多条件搜索配置列表
-                    this.loading = true;
-                    getUploadDomain().then(res => {
-                        this.loading = false;
-                        if (res.success === true) {
-                            this.imageDomain = res.result;
-                            Cookies.set("imageDomain", this.imageDomain);
-                        }
-                    });
                 }
             },
             cancelEditUserInfo() {
@@ -278,7 +252,7 @@
                         formData.append("folder", "adminAvatar");
                         uploadCommon(formData).then(res => {
                             if (res.success === true) {
-                                this.userForm.avatar = res.result.fullUrl;
+                                this.userForm.avatar = res.result.url;
                             }
                         });
                     })

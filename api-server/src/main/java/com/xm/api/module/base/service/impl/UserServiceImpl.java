@@ -39,11 +39,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         User exist;
         exist = userMapper.selectByUsername(userRegisterRequest.getUsername());
         if (ObjectUtil.isNotNull(exist)) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户名已被注册");
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户名已被注册");
         }
         exist = userMapper.selectByMobile(userRegisterRequest.getMobile());
         if (ObjectUtil.isNotNull(exist)) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "手机号已被注册");
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "手机号已被注册");
         }
 
 
@@ -54,9 +54,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //密码加密
         user.setPassword(this.encodePassword(userRegisterRequest.getPassword()));
         if (save(user)) {
-            return new ResultUtil<>().setData(null);
+            return new ResultUtil<>().success(null);
         } else {
-            return new ResultUtil<>().setErrorMsg("注册失败");
+            return new ResultUtil<>().error("注册失败");
         }
     }
 
@@ -66,22 +66,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //查询用户存不存在
         User user = userMapper.selectByUsernameOrMobile(userLoginRequest.getAccount());
         if (ObjectUtil.isNull(user)) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户名不正确");
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户名不正确");
         }
 
         //用户禁用
         if (user.getStatus() == CommonStatus.STATUS_DISABLED.getStatus()) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户被禁用");
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户被禁用");
         }
 
         //用户删除
         if (user.getStatus() == CommonStatus.STATUS_DELETED.getStatus()) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户已被删除");
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "用户已被删除");
         }
 
         //校验密码
         if (!this.encodePassword(userLoginRequest.getPassword()).equals(user.getPassword())) {
-            return new ResultUtil<>().setErrorMsg(HttpStatus.INTERNAL_SERVER_ERROR.value(), "密码错误");
+            return new ResultUtil<>().error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "密码错误");
         }
 
         //转domain到dto
@@ -94,7 +94,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         userModel.setUpdatedAt(user.getUpdatedAt());
         userModel.setStatus(user.getStatus());
 
-        return new ResultUtil<>().setData(userModel);
+        return new ResultUtil<>().success(userModel);
     }
 
     /**

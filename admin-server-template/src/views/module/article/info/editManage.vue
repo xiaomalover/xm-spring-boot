@@ -90,14 +90,12 @@
 <script>
 
     import VueUeditorWrap from 'vue-ueditor-wrap'
-    import Cookies from "js-cookie";
 
     import {
         addArticle,
         editArticle,
         loadArticleCategory,
         uploadArticleThumb,
-        getUploadDomain,
         getArticle,
     } from "@/api/index";
 
@@ -116,7 +114,6 @@
                 dropDownContent: "展开",
                 dropDownIcon: "ios-arrow-down",
                 selectCount: 0,
-                imageDomain: "",
                 actionType: "",
                 articleId: "",
                 defaultList: [
@@ -181,7 +178,6 @@
                 this.accessToken = {
                     accessToken: this.getStore("accessToken")
                 };
-                this.getImageBase();
                 this.uploadList = this.$refs.upload.fileList;
                 this.getParentList();
                 this.actionType = this.$route.query.type;
@@ -201,7 +197,7 @@
                         let str = JSON.stringify(res.result);
                         let articleInfo = JSON.parse(str);
                         this.articleForm = articleInfo;
-                        this.defaultList[0].url = this.articleForm.thumb !== "" ? this.imageDomain + this.articleForm.thumb : "";
+                        this.defaultList[0].url = this.articleForm.thumb !== "" ? this.articleForm.thumb : "";
                         this.uploadList = this.articleForm.thumb !== "" ? this.defaultList : [];
                     }
                 });
@@ -359,9 +355,9 @@
 
             handleSuccess(res, file) {
                 if (res.success === true) {
-                    file.url = res.result.fullUrl;
-                    this.articleForm.thumb = res.result.relative;
-                    this.defaultList[0].url = res.result.fullUrl;
+                    file.url = res.result.url;
+                    this.articleForm.thumb = res.result.url;
+                    this.defaultList[0].url = res.result.url;
                     this.uploadList = this.defaultList;
                 } else {
                     this.$Message.error(res.message);
@@ -387,22 +383,6 @@
                     title: "文件大小过大",
                     desc: "所选文件‘ " + file.name + " ’大小过大, 不得超过 5M."
                 });
-            },
-
-            getImageBase() {
-                if(Cookies.get("imageDomain")) {
-                    this.imageDomain = Cookies.get("imageDomain");
-                } else {
-                    // 多条件搜索配置列表
-                    this.loading = true;
-                    getUploadDomain().then(res => {
-                        this.loading = false;
-                        if (res.success === true) {
-                            this.imageDomain = res.result;
-                            Cookies.set("imageDomain", this.imageDomain);
-                        }
-                    });
-                }
             },
         },
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author xiaomalover <xiaomalover@gmail.com>
  */
 @RestController
-@RequestMapping("/skeleton/home")
+@RequestMapping("/home")
 public class HomeController {
 
     @GetMapping("statistics")
@@ -30,6 +30,6 @@ public class HomeController {
                 "\t\t\t\"dates\": [\"2018-12-19\", \"2018-12-20\", \"2018-12-21\", \"2018-12-22\", \"2018-12-23\", \"2018-12-24\", \"2018-12-25\", \"2018-12-26\", \"2018-12-27\", \"2018-12-28\", \"2018-12-29\", \"2018-12-30\", \"2018-12-31\", \"2019-01-01\", \"2019-01-02\", \"2019-01-03\"]\n" +
                 "\t\t}"));
 
-        return new ResultUtil<>().setData(jsonObject);
+        return new ResultUtil<>().success(jsonObject);
     }
 }
