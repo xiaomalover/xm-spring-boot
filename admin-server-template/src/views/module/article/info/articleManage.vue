@@ -88,7 +88,7 @@
 </template>
 
 <script>
-    import Cookies from "js-cookie";
+
     import {
         deleteArticle,
         disableArticle,

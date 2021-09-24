@@ -1,5 +1,12 @@
 <style lang="less">
     @import "articleManage.less";
+    /*这个是为了去掉tinymce富文本编辑器apikey无效的提示，如果您有有效的Key, 可以去掉此样式*/
+    .tox-notifications-container {display: none !important;}
+    /*修复tinymce全屏bug*/
+    .single-page-con {
+        position: fixed !important;
+        z-index: 99 !important;
+    }
 </style>
 <template>
     <div>
@@ -46,7 +53,12 @@
                     <Input v-model="articleForm.summary" type="textarea" placeholder="请输入公告简介..."/>
                 </FormItem>
                 <FormItem label="文章内容" prop="content">
-                    <vue-ueditor-wrap ref="ueditor" v-model="articleForm.content" :destroy="true" :config="config" style="line-height: 20px;"></vue-ueditor-wrap>
+                    <editor
+                            :api-key="apiKey"
+                            :init="editConfig"
+                            v-model="articleForm.content"
+                    />
+                    <!--<vue-ueditor-wrap ref="ueditor" v-model="articleForm.content" :destroy="true" :config="config" style="line-height: 20px;"></vue-ueditor-wrap>-->
                 </FormItem>
                 <FormItem label="作者" prop="author">
                     <Input v-model="articleForm.author" autocomplete="off" placeholder="请输入作者信息"/>
@@ -89,20 +101,22 @@
 
 <script>
 
-    import VueUeditorWrap from 'vue-ueditor-wrap'
+    import Editor from '@tinymce/tinymce-vue';
+    import moment from 'moment';
 
     import {
         addArticle,
         editArticle,
         loadArticleCategory,
         uploadArticleThumb,
+        uploadCommon,
         getArticle,
     } from "@/api/index";
 
     export default {
         name: "edit-manage",
         components: {
-            VueUeditorWrap
+            Editor
         },
         data() {
             return {
@@ -121,21 +135,44 @@
                         url: ""
                     }
                 ],
-                config: {
-                    // 编辑器不自动被内容撑高
-                    autoHeightEnabled: false,
-                    // 初始容器高度
-                    initialFrameHeight: 240,
-                    // 初始容器宽度
-                    initialFrameWidth: '100%',
-                    serverUrl: window.location.protocol + "//" + window.location.host + "/skeleton/ueditor/exec",
-                    // UEditor 资源文件的存放路径，如果你使用的是 vue-cli 生成的项目，通常不需要设置该选项，vue-ueditor-wrap 会自动处理常见的情况，如果需要特殊配置，参考下方的常见问题2
-                    UEDITOR_HOME_URL: 'ueditor/',
-                    // 配合最新编译的资源文件，你可以实现添加自定义Request Headers,详情https://github.com/HaoChuan9421/ueditor/commits/dev-1.4.3.3
-                    headers: {
-                        accessToken: this.getStore("accessToken")
-                    }
+
+
+                apiKey: "", //key值从官网注册申请来的，没有Key会提示无效apiKey, 但上面的css隐藏了提示，如果您有有效key，请去掉上面的css
+                editConfig: {
+                    height: 500, //富文本高度
+                    language_url: '/tinymce/langs/zh_CN.js', //中文包
+                    language: 'zh_CN', //中文
+                    browser_spellcheck: true, // 拼写检查
+                    branding: false, // 去水印
+                    elementpath: true, //禁用编辑器底部的状态栏
+                    statusbar: true, // 隐藏编辑器底部的状态栏
+                    paste_data_images: true, // 是否允许粘贴图像
+                    menubar: true, // 隐藏最上方menu
+                    fontsize_formats: '14px 16px 18px 20px 24px 26px 28px 30px 32px 36px', //字体大小
+                    font_formats:'微软雅黑=Microsoft YaHei,Helvetica Neue;PingFang SC;sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun;serifsans-serif;Terminal=terminal;monaco;Times New Roman=times new roman;times', //字体
+                    file_picker_types: 'image',
+                    images_upload_credentials: true,
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount',
+                    ],
+                    toolbar: 'fontselect fontsizeselect link lineheight forecolor backcolor bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | image quicklink h2 h3 blockquote table numlist bullist preview fullscreen',
+                    // 图片上传三个参数，图片数据，成功时的回调函数，失败时的回调函数
+                    images_upload_handler: function(blobInfo, success, failure) {
+                        let formData = new FormData();
+                        formData.append("file", blobInfo.blob());
+                        formData.append("folder", "editor/" + moment().format('YYYYMMDD'))
+                        // 上传图片接口，跟后端同事协调上传图片
+                        // http://hh.xxxx.cn/admin/upload为上传图片接口
+                        uploadCommon(formData).then(function(res) {
+                            success(res.result.url);
+                        }).catch(() => {
+                            failure("error");
+                        });
+                    },
                 },
+
                 imgUrl: "",
                 uploadList: [],
                 viewImage: false,
@@ -400,13 +437,6 @@
             },
             operateDisable:function() {
                 return this.defaultList[0].url === "";
-            }
-        },
-
-        beforeDestroy() {
-            if (this.$refs.ueditor) {
-                this.$refs.ueditor.$destroy();
-                this.$refs.ueditor = {};
             }
         },
 

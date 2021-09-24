@@ -249,7 +249,7 @@
                         let files = new window.File([data], "avatar" + new Date().getTime() + "." + fileExtension, {type: data.type});
                         let formData = new FormData();
                         formData.append("file", files);
-                        formData.append("folder", "adminAvatar");
+                        formData.append("folder", "admin-avatar");
                         uploadCommon(formData).then(res => {
                             if (res.success === true) {
                                 this.userForm.avatar = res.result.url;

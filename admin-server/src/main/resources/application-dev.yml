@@ -12,8 +12,8 @@ storage:
     rootPath: D:\uploads
     domain: http://img.xm-bt.com/
   alioss:
-    accessKeyId: ewrtwet
-    accessKeySecret: wewrewtewtwet
+    accessKeyId: ffdasdfasf
+    accessKeySecret: asdfasdfafdddd
     endpoint: https://oss-cn-beijing.aliyuncs.com
     bucketName: weison
     fileDir: xboot/demo1
@@ -96,8 +96,7 @@ ignored:
     - /js/**
     - /fonts/**
     - /static/**
-    - /skeleton/ueditor/**
-    - /ueditor/**
+    - /tinymce/**
     - /*.*
 
 # Mybatis-plus
