@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/quartzJob")
+@RequestMapping("/skeleton/quartzJob")
 public class QuartzJobController {
 
     @Autowired

@@ -9,7 +9,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.4",
     "countup": "^1.8.2",
     "echarts": "^4.1.0",
     "iview": "^3.5.4",
@@ -25,7 +25,7 @@
     "vue-ueditor-wrap": "^2.4.1",
     "vue-virtual-scroller": "^0.12.0",
     "vuex": "^3.0.1",
-    "xlsx": "^0.13.4"
+    "xlsx": "^0.17.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",

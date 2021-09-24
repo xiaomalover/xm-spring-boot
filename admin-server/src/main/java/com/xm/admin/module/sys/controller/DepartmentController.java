@@ -30,7 +30,7 @@ import java.util.Set;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/skeleton/department")
 @CacheConfig(cacheNames = "department")
 @Transactional
 public class DepartmentController {

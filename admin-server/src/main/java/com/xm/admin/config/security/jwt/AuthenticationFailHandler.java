@@ -61,7 +61,7 @@ public class AuthenticationFailHandler extends SimpleUrlAuthenticationFailureHan
                 if (e instanceof UsernameNotFoundException) {
                     ResponseUtil.out(response, ResponseUtil.resultMap(false, 500, "用户名或密码错误"));
                 } else {
-                    ResponseUtil.out(response, ResponseUtil.resultMap(false, 500, "用户被禁用"));
+                    ResponseUtil.out(response, ResponseUtil.resultMap(false, 500, "用户名或密码错误"));
                 }
             }
         } else if (e instanceof DisabledException) {

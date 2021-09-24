@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2019-04-05
  */
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/skeleton/article")
 public class ArticleInfoController {
 
     @Autowired

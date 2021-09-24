@@ -43,8 +43,22 @@
                 <Button type="primary" :loading="submitLoading" @click="submitRole">提交</Button>
             </div>
         </Modal>
-        <Modal title="分配权限(点击选择)" v-model="permModalVisible" :mask-closable='false' :width="500"
-               :styles="{top: '30px'}">
+        <Modal title="分配权限(点击选择)" v-model="permModalVisible" :mask-closable='false' :fullscreen="fullscreen" :width="500">
+
+            <div slot="header">
+                <div style="float: left;height: 30px; line-height: 30px;">
+                    <h3>分配权限(点击选择)</h3>
+                </div>
+                <div style="float:right;margin-right: 30px;">
+                    <span @click="fullscreenChange">
+                        <i class="ivu-icon ivu-icon-ios-expand" v-if="!fullscreen" style="font-size: 20px;"></i>
+                        <i class="ivu-icon ivu-icon-ios-contract" v-else style="font-size: 20px;"></i>
+                    </span>
+                </div>
+                <div style="clear: both;"></div>
+            </div>
+            <!--<div slot="close"></div>-->
+
             <Tree ref="tree" :data="permData" multiple></Tree>
             <Spin size="large" v-if="treeLoading"></Spin>
             <div slot="footer">
@@ -81,6 +95,7 @@
                 roleModalVisible: false,
                 permModalVisible: false,
                 modalTitle: "",
+                fullscreen: false,
                 permTypes: [],
                 roleForm: {
                     description: "",
@@ -549,6 +564,9 @@
                 if (permTypes !== null && permTypes !== undefined) {
                     this.permTypes = permTypes;
                 }
+            },
+            fullscreenChange() {
+                this.fullscreen = !this.fullscreen;
             },
         },
         mounted() {

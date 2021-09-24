@@ -96,41 +96,45 @@
                 columns: [
                     {
                         type: "selection",
-                        width: 60,
+                        minWidth: 60,
+                        fixed: "left",
                         align: "center"
                     },
                     {
                         type: "index",
-                        width: 60,
+                        minWidth: 60,
                         align: "center"
                     },
                     {
                         title: "任务类名",
                         key: "jobClassName",
                         sortable: true,
-                        width: 200
+                        minWidth: 200
                     },
                     {
                         title: "cron表达式",
                         key: "cronExpression",
+                        minWidth: 180,
                         sortable: true
                     },
                     {
                         title: "参数",
                         key: "parameter",
+                        minWidth: 180,
                         sortable: true
                     },
                     {
                         title: "备注",
                         key: "description",
                         sortable: true,
-                        width: 180
+                        minWidth: 180
                     },
                     {
                         title: "创建时间",
                         key: "createdAt",
                         sortable: true,
                         sortType: "desc",
+                        minWidth: 150,
                         render: (h, params) => {
                             return h("div", moment(params.row.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
                         }
@@ -140,6 +144,7 @@
                         key: "updatedAt",
                         sortable: true,
                         sortType: "desc",
+                        minWidth: 150,
                         render: (h, params) => {
                             return h("div", moment(params.row.updatedAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
                         }
@@ -148,7 +153,7 @@
                         title: "状态",
                         key: "status",
                         align: "center",
-                        width: 140,
+                        minWidth: 140,
                         render: (h, params) => {
                             let re = "";
                             if (params.row.status === 1) {
@@ -202,7 +207,8 @@
                         title: "操作",
                         key: "action",
                         align: "center",
-                        width: 280,
+                        fixed: "right",
+                        minWidth: 200,
                         render: (h, params) => {
                             let editBtn; let disableBtn; let enableBtn; let deleteBtn;
                             if (this.permTypes.includes("edit")) {

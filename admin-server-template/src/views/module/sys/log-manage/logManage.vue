@@ -71,20 +71,20 @@
                 columns: [
                     {
                         type: "selection",
-                        width: 60,
+                        minWidth: 60,
                         align: "center",
                         fixed: "left"
                     },
                     {
                         title: "操作名称",
                         key: "name",
-                        width: 110,
+                        minWidth: 110,
                         sortable: true,
                     },
                     {
                         title: "请求类型",
                         key: "requestType",
-                        width: 120,
+                        minWidth: 120,
                         align: "center",
                         sortable: true,
                         filters: [
@@ -120,31 +120,31 @@
                     },
                     {
                         title: "请求路径",
-                        width: 150,
+                        minWidth: 150,
                         key: "requestUrl"
                     },
                     {
                         title: "请求参数",
-                        //width: 200,
+                        minWidth: 200,
                         key: "requestParam",
                         tooltip: true
                     },
                     {
                         title: "登录用户",
                         key: "username",
-                        width: 105,
+                        minWidth: 150,
                         sortable: true
                     },
                     {
                         title: "IP",
                         key: "ip",
-                        width: 120,
+                        minWidth: 120,
                         sortable: true
                     },
                     {
                         title: "IP信息",
                         key: "ipInfo",
-                        width: 100,
+                        minWidth: 100,
                         sortable: true,
                         render: (h, params) => {
                             let re = "";
@@ -158,7 +158,7 @@
                     {
                         title: "耗时(毫秒)",
                         key: "costTime",
-                        width: 130,
+                        minWidth: 150,
                         sortable: true,
                         align: "center",
                         filters: [
@@ -185,6 +185,7 @@
                         key: "createdAt",
                         sortable: true,
                         sortType: "desc",
+                        minWidth: 150,
                         render: (h, params) => {
                             return h("div", moment(params.row.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss'));
                         }
@@ -192,7 +193,7 @@
                     {
                         title: "操作",
                         key: "action",
-                        width: 98,
+                        minWidth: 100,
                         align: "center",
                         fixed: "right",
                         render: (h, params) => {

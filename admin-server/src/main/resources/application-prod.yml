@@ -1,12 +1,13 @@
 server:
   port: 20003
   servlet:
-    context-path: /skeleton
+    #这里为了静态文件放在后端直接端口可以访问，不加context-path，加到每一个控器的路由中
+    context-path: /
 
 #文件存储
 storage:
   #当前驱动类型，localStorage本地; aliOssStorage阿里云OSS
-  type: aliOssStorage
+  type: localStorage
   local:
     rootPath: D:\uploads
     domain: http://img.xm-bt.com/
@@ -86,8 +87,9 @@ skeleton:
 # 忽略鉴权url
 ignored:
   urls:
-    - /permission/getMenuList/**
-    - /captcha/**
+    - /skeleton/permission/getMenuList/**
+    - /skeleton/captcha/**
+    - /skeleton/common/**
     - /
     - /img/**
     - /css/**

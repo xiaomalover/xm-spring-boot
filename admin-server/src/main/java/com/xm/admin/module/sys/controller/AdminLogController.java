@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2019-03-06
  */
 @RestController
-@RequestMapping("/log")
+@RequestMapping("/skeleton/log")
 @Transactional
 public class AdminLogController {
 

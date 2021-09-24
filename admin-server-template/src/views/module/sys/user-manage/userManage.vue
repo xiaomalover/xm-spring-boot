@@ -12,10 +12,6 @@
                                 <Input type="text" v-model="searchForm.username" clearable placeholder="请输入用户名"
                                        style="width: 200px"/>
                             </Form-item>
-                            <Form-item label="SN" prop="sn">
-                                <Input type="text" v-model="searchForm.sn" clearable placeholder="请输入用户SN"
-                                       style="width: 250px"/>
-                            </Form-item>
                             <Form-item label="部门" prop="department">
                                 <Cascader v-model="selectDep" :data="department" :load-data="loadData"
                                           @on-change="handleChangeDep" change-on-select filterable
@@ -248,7 +244,6 @@
                     order: "desc",
                     startDate: "",
                     endDate: "",
-                    sn: "",
                 },
                 selectDate: null,
                 modalType: 0,
@@ -310,6 +305,37 @@
                         align: "center",
                         fixed: "left"
                     },
+
+                    {
+                        title: "头像",
+                        key: "avatar",
+                        align: "center",
+                        minWidth: 90,
+                        render: (h, params) => {
+                            if (params.row.avatar) {
+                                return h('div', {
+                                    attrs: {
+                                        style: ''
+                                    },
+                                }, [
+                                    h('img', {
+                                        props: {
+                                            type: 'primary',
+                                            size: 'small'
+                                        },
+                                        attrs: {
+                                            src: params.row.avatar,
+                                            style: 'width: 100%; border-radius: 2px;'
+                                        },
+                                        style: "text-align:center;margin:10px auto;",
+                                    }),
+                                ]);
+                            } else {
+                                return h('div', '-');
+                            }
+                        }
+                    },
+
                     {
                         title: "用户名",
                         key: "username",
@@ -776,8 +802,8 @@
                         content: "您确认要导出所选 " + this.selectCount + " 条数据?",
                         onOk: () => {
                             this.$refs.exportTable.exportCsv({
-                                filename: "管理员数据",
-                                columns: this.columns.filter((col, index) => index  >  1 && index < 10),
+                                filename: "管理员数据" + moment().format('YYYYMMDDHHmmss'),
+                                columns: this.columns.filter((col, index) => index  >  1 && index < this.columns.length - 1),
                                 data: this.exportData.map(item =>{
                                     item.createdAt = moment(item.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss');
 
@@ -819,8 +845,8 @@
                             }
 
                             this.$refs.exportTable.exportCsv({
-                                filename: "管理员数据",
-                                columns: this.columns.filter((col, index) => index  >  1 && index < 10),
+                                filename: "管理员数据" + moment().format('YYYYMMDDHHmmss'),
+                                columns: this.columns.filter((col, index) => index  >  1 && index < this.columns.length - 1),
                                 data: this.exportData.map(item =>{
                                     item.createdAt = moment(item.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss');
 

@@ -333,7 +333,7 @@
                         content: "您确认要导出所选 " + this.selectCount + " 条数据?",
                         onOk: () => {
                             this.$refs.exportTable.exportCsv({
-                                filename: "文章数据",
+                                filename: "文章数据" + moment().format('YYYYMMDDHHmmss'),
                                 columns: this.allColumns.filter((col, index) => index  >  0),
                                 data: this.exportData.map(item =>{
                                     item.createdAt = moment(item.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss');
@@ -364,7 +364,7 @@
                             }
 
                             this.$refs.exportTable.exportCsv({
-                                filename: "文章数据",
+                                filename: "文章数据" + moment().format('YYYYMMDDHHmmss'),
                                 columns: this.allColumns.filter((col, index) => index  >  0),
                                 data: this.exportData.map(item =>{
                                     item.createdAt = moment(item.createdAt * 1000).format('YYYY-MM-DD HH:mm:ss');
@@ -603,7 +603,8 @@
                 let selectionColumn = {
                     type: "selection",
                     align: "center",
-                    fixed: "left"
+                    fixed: "left",
+                    minWidth: 60,
                 };
                 checkedColumns.push(selectionColumn);
 

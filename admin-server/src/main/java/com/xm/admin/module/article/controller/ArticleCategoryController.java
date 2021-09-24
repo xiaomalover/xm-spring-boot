@@ -29,7 +29,7 @@ import java.util.Set;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
-@RequestMapping("/article/category")
+@RequestMapping("/skeleton/article/category")
 @CacheConfig(cacheNames = "articleCategory")
 public class ArticleCategoryController {
 

@@ -48,7 +48,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/skeleton/user")
 @CacheConfig(cacheNames = "admin")
 @Transactional
 public class AdminController {

@@ -39,11 +39,17 @@ const app = {
         // 动态添加主界面路由，需要缓存
         updateAppRouter(state, routes) {
             state.routers.push(...routes);
-            router.addRoutes(routes);
+            for(let i = 0, length = routes.length; i < length; i++) {
+                router.addRoute(routes[i]);
+            }
+            //router.addRoutes(routes);
         },
         // 动态添加全局路由，不需要缓存
         updateDefaultRouter(state, routes) {
-            router.addRoutes(routes);
+            //router.addRoutes(routes);
+            for(let i = 0, length = routes.length; i < length; i++) {
+                router.addRoute(routes[i]);
+            }
         },
         setTagsList(state, list) {
             state.tagsList.push(...list);

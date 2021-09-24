@@ -32,7 +32,7 @@ import java.util.Set;
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Slf4j
 @RestController
-@RequestMapping("/permission")
+@RequestMapping("/skeleton/permission")
 @CacheConfig(cacheNames = "permission")
 @Transactional
 public class PermissionController {

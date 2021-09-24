@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author xiaomalover <xiaomalover@gmail.com>
  */
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/skeleton/home")
 public class HomeController {
 
     @GetMapping("statistics")

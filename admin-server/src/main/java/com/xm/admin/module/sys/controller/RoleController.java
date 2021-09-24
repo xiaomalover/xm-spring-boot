@@ -35,7 +35,7 @@ import java.util.Set;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/skeleton/role")
 public class RoleController {
 
     @Autowired

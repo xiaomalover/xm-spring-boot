@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author xiaomalover <xiaomalover@gmail.com>
  */
-@RequestMapping("/captcha")
+@RequestMapping("/skeleton/captcha")
 @RestController
 public class CaptchaController {
 
