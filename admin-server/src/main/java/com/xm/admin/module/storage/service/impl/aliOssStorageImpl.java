@@ -69,11 +69,6 @@ public class aliOssStorageImpl implements IStorage {
         }
     }
 
-    @Override
-    public String getUrl(String path) {
-        return path;
-    }
-
     /**
      * 上传到OSS服务器  如果同名文件会覆盖服务器上的
      *

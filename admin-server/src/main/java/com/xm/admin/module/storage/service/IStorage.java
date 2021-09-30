@@ -12,11 +12,4 @@ public interface IStorage {
      * @return  返回url地址
      */
     Result<Object> upload(MultipartFile file, String folder);
-
-    /**
-     * 获取文件url
-     * @param  path  文件路径
-     * @return  返回url
-     */
-    String getUrl(String path);
 }

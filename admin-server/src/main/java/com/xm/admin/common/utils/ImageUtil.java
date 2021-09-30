@@ -47,7 +47,7 @@ public class ImageUtil {
     public static boolean initDir(String dir) {
         File file = new File(dir);
         if (!file.exists() && !file.isDirectory()) {
-            return file.mkdir();
+            return file.mkdirs();
         }
         return true;
     }

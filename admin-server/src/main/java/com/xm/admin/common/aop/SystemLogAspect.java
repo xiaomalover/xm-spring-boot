@@ -13,7 +13,6 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +30,6 @@ import java.util.Map;
  *
  * @author xiaomalover <xiaomalover@gmail.com>
  */
-@SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Aspect
 @Component
 @Slf4j
@@ -43,14 +41,17 @@ public class SystemLogAspect {
      */
     private static final ThreadLocal<Date> beginTimeThreadLocal = new NamedThreadLocal<>("ThreadLocal beginTime");
 
-    @Autowired
-    private IAdminLogService logService;
+    private final IAdminLogService logService;
 
-    @Autowired(required = false)
-    private HttpServletRequest request;
+    private final HttpServletRequest request;
 
-    @Autowired
-    private IpInfoUtil ipInfoUtil;
+    private final IpInfoUtil ipInfoUtil;
+
+    public SystemLogAspect(IAdminLogService logService, HttpServletRequest request, IpInfoUtil ipInfoUtil) {
+        this.logService = logService;
+        this.request = request;
+        this.ipInfoUtil = ipInfoUtil;
+    }
 
     /**
      * Controller层切点,注解方式
@@ -111,8 +112,8 @@ public class SystemLogAspect {
                 long beginTime = beginTimeThreadLocal.get().getTime();
                 long endTime = System.currentTimeMillis();
                 //请求耗时
-                Long logElapsedTime = endTime - beginTime;
-                log.setCostTime(logElapsedTime.intValue());
+                long logElapsedTime = endTime - beginTime;
+                log.setCostTime((int) logElapsedTime);
 
                 //调用线程保存至数据库
                 ThreadPoolUtil.getPool().execute(new SaveSystemLogThread(log, logService));
@@ -127,9 +128,9 @@ public class SystemLogAspect {
      */
     private static class SaveSystemLogThread implements Runnable {
 
-        private AdminLog log;
+        private final AdminLog log;
 
-        private IAdminLogService logService;
+        private final IAdminLogService logService;
 
         SaveSystemLogThread(AdminLog log, IAdminLogService logService) {
             this.log = log;
@@ -158,7 +159,7 @@ public class SystemLogAspect {
         //获取相关参数
         Object[] arguments = joinPoint.getArgs();
         //生成类对象
-        Class targetClass = Class.forName(targetName);
+        Class<?> targetClass = Class.forName(targetName);
         //获取该类中的方法
         Method[] methods = targetClass.getMethods();
 
@@ -168,7 +169,7 @@ public class SystemLogAspect {
             if (!method.getName().equals(methodName)) {
                 continue;
             }
-            Class[] clazzs = method.getParameterTypes();
+            Class<?>[] clazzs = method.getParameterTypes();
             if (clazzs.length != arguments.length) {
                 //比较方法中参数个数与从切点中获取的参数个数是否相同，原因是方法可以重载哦
                 continue;

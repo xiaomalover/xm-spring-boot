@@ -69,10 +69,4 @@ public class LocalStorageImpl implements IStorage {
             return new ResultUtil<>().error(e.toString());
         }
     }
-
-    @Override
-    public String getUrl(String path) {
-        return imageDomain + path;
-    }
-
 }
