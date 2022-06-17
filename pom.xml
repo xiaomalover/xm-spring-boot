@@ -27,7 +27,7 @@
         <mysql-connect.version>8.0.26</mysql-connect.version>
         <druid.version>1.2.5</druid.version>
         <spring-boot-starter-data-redis.version>2.5.3</spring-boot-starter-data-redis.version>
-        <fastjson.version>1.2.76</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <hutool.version>5.7.6</hutool.version>
         <lombok.version>1.18.20</lombok.version>
     </properties>
