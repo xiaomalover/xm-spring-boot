@@ -24,7 +24,7 @@
         <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
         <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
         <beetl.version>3.4.0.RELEASE</beetl.version>
-        <mysql-connect.version>8.0.26</mysql-connect.version>
+        <mysql-connect.version>8.0.28</mysql-connect.version>
         <druid.version>1.2.5</druid.version>
         <spring-boot-starter-data-redis.version>2.5.3</spring-boot-starter-data-redis.version>
         <fastjson.version>1.2.76</fastjson.version>
